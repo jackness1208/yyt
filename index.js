@@ -8,16 +8,13 @@ const entry = {
         await cmd.version(iEnv);
         break;
 
-      case 'start':
-        await cmd.start(iEnv);
-        break;
-
-      case 'abort':
-        await cmd.abort(iEnv);
+      case '-h':
+      case '--help':
+        await cmd.help(iEnv);
         break;
 
       default:
-        await cmd.help(iEnv);
+        await cmd.start(iEnv);
         break;
     }
   }
