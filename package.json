@@ -1,0 +1,38 @@
+{
+  "name": "yyt",
+  "version": "0.0.1",
+  "description": "",
+  "preferGlobal": true,
+  "main": "index.js",
+  "bin": {
+    "yyt": "bin/init.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackness1208/yyt.git"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "keywords": [
+    "yyt",
+    "nightwatch"
+  ],
+  "author": "jackness",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackness1208/yyt/issues"
+  },
+  "homepage": "https://github.com/jackness1208/yyt#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "chromedriver": "^2.44.1",
+    "nightwatch": "^0.9.21",
+    "selenium-server": "^3.141.59",
+    "yyl-print": "^0.2.0",
+    "yyl-util": "^1.14.4"
+  }
+}
