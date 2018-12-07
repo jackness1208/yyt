@@ -19,6 +19,7 @@ if (iEnv.config) {
 
 const HELPER_PATH_01 = path.join(__dirname, '../node_modules/nightwatch-helpers');
 const HELPER_PATH_02 = path.join(__dirname, '../../node_modules/nightwatch-helpers');
+
 let helperPath = '';
 
 const commandsPaths = [];
@@ -55,6 +56,10 @@ const DEFAULT_CONFIG = {
       selenium_port: PORT,
       selenium_host: 'localhost',
       silent: true,
+      desiredCapabilities: {
+        browserName: 'chrome',
+        marionette: true
+      },
       globals: {
         productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
       }
