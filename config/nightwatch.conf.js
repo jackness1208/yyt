@@ -17,9 +17,30 @@ if (iEnv.config) {
   USER_CONFIG_PATH = path.resolve(iEnv.path, iEnv.config);
 }
 
+const HELPER_PATH_01 = path.join(__dirname, '../node_modules/nightwatch-helpers');
+const HELPER_PATH_02 = path.join(__dirname, '../../node_modules/nightwatch-helpers');
+let helperPath = '';
+
+const commandsPaths = [];
+const assertionsPaths = [];
+
+if (fs.existsSync(HELPER_PATH_01)) {
+  helperPath = HELPER_PATH_01;
+} else if (fs.existsSync(HELPER_PATH_02)) {
+  helperPath = HELPER_PATH_02;
+}
+
+if (helperPath) {
+  commandsPaths.push(path.join(helperPath, 'commands'));
+  assertionsPaths.push(path.join(helperPath, 'assertions'));
+}
+
+
 const DEFAULT_CONFIG = {
   src_folders: ['test'],
   output_folder: '_reports',
+  custom_commands_path: commandsPaths,
+  custom_assertions_path: assertionsPaths,
   selenium: {
     start_process: true,
     server_path: seleniumServer.path,

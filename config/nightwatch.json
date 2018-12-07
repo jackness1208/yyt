@@ -1,8 +1,7 @@
 {
   "src_folders" : ["test"],
   "output_folder" : "reports",
-  "custom_commands_path": ["node_modules/nightwatch-helpers/commands"],
-  "custom_assertions_path": ["node_modules/nightwatch-helpers/assertions"],
+
   "page_objects_path" : "",
   "globals_path" : "",
 
