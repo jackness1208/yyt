@@ -84,4 +84,8 @@ if (config.output_folder) {
   config.output_folder = path.resolve(iEnv.path, config.output_folder);
 }
 
+if (config.selenium && config.selenium.log_path) {
+  config.selenium.log_path = path.resolve(iEnv.path, config.selenium.log_path);
+}
+
 module.exports = config;
