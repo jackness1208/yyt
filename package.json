@@ -31,6 +31,7 @@
     "chalk": "^2.4.1",
     "chromedriver": "^2.44.1",
     "nightwatch": "^0.9.21",
+    "nightwatch-helpers": "^1.2.0",
     "selenium-server": "^3.141.59",
     "yyl-os": "^0.1.0",
     "yyl-print": "^0.2.0",

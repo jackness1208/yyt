@@ -1,49 +1,87 @@
+/* eslint node/no-extraneous-require: 0 */
+const util = require('yyl-util');
+const seleniumServer = require('selenium-server');
+const chromedriver = require('chromedriver');
+const print = require('yyl-print');
+const fs = require('fs');
+const path = require('path');
 
-console.log(process.argv.splice(2))
+const iEnv = util.envParse(process.argv.splice(2).join(' '));
 
-const port = 4444;
-const config = {
-  'src_folders': ['test'],
-  'output_folder': 'reports',
-  // 'globals_path': 'test/e2e/global.js',
-  'selenium': {
-    'start_process': true,
-    'server_path': require('selenium-server').path,
-    'port': port,
-    'cli_args': {
-      'webdriver.chrome.driver': require('chromedriver').path
+const PORT = iEnv.port || 7000;
+const PRODUCT_PORT = PORT + 1;
+
+let USER_CONFIG_PATH = path.join(iEnv.path, 'config.js');
+
+if (iEnv.config) {
+  USER_CONFIG_PATH = path.resolve(iEnv.path, iEnv.config);
+}
+
+const DEFAULT_CONFIG = {
+  src_folders: ['test'],
+  output_folder: '_reports',
+  selenium: {
+    start_process: true,
+    server_path: seleniumServer.path,
+    log_path: false,
+    port: PORT,
+    cli_args: {
+      'webdriver.chrome.driver': chromedriver.path
     }
   },
-
-  'test_settings': {
-    'default': {
-      'selenium_port': port,
-      'selenium_host': 'localhost',
-      'silent': true,
-      'globals': {
-        'productListUrl': 'http://localhost:' + 9003 + '/productlist.html'
+  test_settings: {
+    default: {
+      selenium_port: PORT,
+      selenium_host: 'localhost',
+      silent: true,
+      globals: {
+        productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
       }
     },
 
-    'chrome': {
-      'desiredCapabilities': {
-        'browserName': 'chrome',
-        'javascriptEnabled': true,
-        'acceptSslCerts': true,
-        'chromeOptions': {
-          'args': [
+    chrome: {
+      desiredCapabilities: {
+        browserName: 'chrome',
+        javascriptEnabled: true,
+        acceptSslCerts: true,
+        chromeOptions: {
+          args: [
             '--headless',
             '--disable-gpu'
           ],
-          'binary': '/opt/google/chrome/google-chrome'
+          binary: '/opt/google/chrome/google-chrome'
         }
       }
     },
 
-    'globals': {
-      'productListUrl': 'http://localhost:' + 9003 + '/productlist.html',
+    globals: {
+      productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
     }
   }
+};
+
+let nwConfig = {};
+
+if (!fs.existsSync(USER_CONFIG_PATH)) {
+  print.log.warn(`config is not exists: ${USER_CONFIG_PATH}, use default config`);
+} else {
+  let userConfig = {};
+  try {
+    userConfig = require(USER_CONFIG_PATH);
+  } catch (er) {
+    print.log.error(`config [${USER_CONFIG_PATH}]  parse fail:`, er);
+  }
+  if (typeof userConfig === 'object' && userConfig.nightwatch) {
+    nwConfig = userConfig.nightwatch;
+  }
+}
+
+const config = util.extend(true, DEFAULT_CONFIG, nwConfig);
+
+// 路径纠正
+config.src_folders = config.src_folders.map((iPath) => path.resolve(iEnv.path, iPath));
+if (config.output_folder) {
+  config.output_folder = path.resolve(iEnv.path, config.output_folder);
 }
 
 module.exports = config;
