@@ -40,6 +40,11 @@ if (helperPath) {
 const DEFAULT_CONFIG = {
   src_folders: ['test'],
   output_folder: '_reports',
+
+  page_objects_path: '',
+
+  // 全局模块路径，nightwatch启动时还会去加载这个路径下的模块
+  globals_path: '',
   custom_commands_path: commandsPaths,
   custom_assertions_path: assertionsPaths,
   selenium: {
@@ -48,7 +53,9 @@ const DEFAULT_CONFIG = {
     log_path: false,
     port: PORT,
     cli_args: {
-      'webdriver.chrome.driver': chromedriver.path
+      'webdriver.chrome.driver': chromedriver.path,
+      'webdriver.gecko.driver' : '',
+      'webdriver.edge.driver' : ''
     }
   },
   test_settings: {
@@ -80,6 +87,18 @@ const DEFAULT_CONFIG = {
       }
     },
 
+    firefox: {
+      desiredCapabilities: {
+        browserName: 'firefox',
+        javascriptEnabled: true,
+        acceptSslCerts: true
+      }
+    },
+    edge: {
+      desiredCapabilities: {
+        browserName: 'MicrosoftEdge'
+      }
+    },
     globals: {
       productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
     }
