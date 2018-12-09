@@ -2,6 +2,7 @@
 const util = require('yyl-util');
 const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
+const geckodriver = require('geckodriver');
 const print = require('yyl-print');
 const fs = require('fs');
 const path = require('path');
@@ -52,7 +53,7 @@ const DEFAULT_CONFIG = {
     port: PORT,
     cli_args: {
       'webdriver.chrome.driver': chromedriver.path,
-      'webdriver.gecko.driver' : '',
+      'webdriver.gecko.driver' : geckodriver.path,
       'webdriver.edge.driver' : ''
     }
   },
@@ -60,6 +61,10 @@ const DEFAULT_CONFIG = {
     default: {
       selenium_port: PORT,
       selenium_host: 'localhost',
+      screenshots: {
+        enabled: false,
+        path: ''
+      },
       silent: true,
       desiredCapabilities: {
         browserName: 'chrome',
@@ -86,7 +91,11 @@ const DEFAULT_CONFIG = {
     },
     firefox: {
       desiredCapabilities: {
-        browserName: 'firefox'
+        browserName: 'firefox',
+        javascriptEnabled: true,
+        marionette: false,
+        acceptSslCerts: true,
+        acceptInsecureCerts :true
       }
     },
     edge: {
@@ -121,12 +130,31 @@ const config = util.extend(true, DEFAULT_CONFIG, nwConfig);
 
 // 路径纠正
 config.src_folders = config.src_folders.map((iPath) => path.resolve(iEnv.path, iPath));
-if (config.output_folder) {
-  config.output_folder = path.resolve(iEnv.path, config.output_folder);
-}
 
-if (config.selenium && config.selenium.log_path) {
-  config.selenium.log_path = path.resolve(iEnv.path, config.selenium.log_path);
-}
+const PATH_ATTRS = [
+  'output_folder',
+  'selenium.log_path',
+  'page_objects_path',
+  'globals_path',
+  'test_settings.screenshots.path'
+];
+PATH_ATTRS.forEach((ctx) => {
+  const deep = ctx.split('.');
+  let handle = config;
+  let ctrl = null;
+  let lastKey = null;
+  deep.forEach((key, i) => {
+    if (i === deep.length - 1) {
+      ctrl = handle;
+      lastKey = key;
+    }
+    if (handle) {
+      handle = handle[key];
+    }
+  });
+  if (handle && ctrl && lastKey) {
+    ctrl[lastKey] = path.resolve(iEnv.path, handle);
+  }
+});
 
 module.exports = config;
