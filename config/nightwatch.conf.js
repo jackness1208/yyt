@@ -2,7 +2,6 @@
 const util = require('yyl-util');
 const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
-const geckodriver = require('geckodriver');
 const print = require('yyl-print');
 const fs = require('fs');
 const path = require('path');
@@ -53,7 +52,7 @@ const DEFAULT_CONFIG = {
     port: PORT,
     cli_args: {
       'webdriver.chrome.driver': chromedriver.path,
-      'webdriver.gecko.driver' : geckodriver.path,
+      'webdriver.gecko.driver' : '',
       'webdriver.edge.driver' : ''
     }
   },
@@ -74,7 +73,6 @@ const DEFAULT_CONFIG = {
         productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
       }
     },
-
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
@@ -84,23 +82,8 @@ const DEFAULT_CONFIG = {
           args: [
             '--headless',
             '--disable-gpu'
-          ],
-          binary: '/opt/google/chrome/google-chrome'
+          ]
         }
-      }
-    },
-    firefox: {
-      desiredCapabilities: {
-        browserName: 'firefox',
-        javascriptEnabled: true,
-        marionette: false,
-        acceptSslCerts: true,
-        acceptInsecureCerts :true
-      }
-    },
-    edge: {
-      desiredCapabilities: {
-        browserName: 'MicrosoftEdge'
       }
     },
 
