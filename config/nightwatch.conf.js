@@ -42,13 +42,18 @@ const DEFAULT_CONFIG = {
   output_folder: '_reports',
   custom_commands_path: commandsPaths,
   custom_assertions_path: assertionsPaths,
+
+  page_objects_path : '',
+  globals_path : '',
   selenium: {
     start_process: true,
     server_path: seleniumServer.path,
     log_path: false,
     port: PORT,
     cli_args: {
-      'webdriver.chrome.driver': chromedriver.path
+      'webdriver.chrome.driver': chromedriver.path,
+      'webdriver.gecko.driver' : '',
+      'webdriver.edge.driver' : ''
     }
   },
   test_settings: {
@@ -77,6 +82,16 @@ const DEFAULT_CONFIG = {
           ],
           binary: '/opt/google/chrome/google-chrome'
         }
+      }
+    },
+    firefox: {
+      desiredCapabilities: {
+        browserName: 'firefox'
+      }
+    },
+    edge: {
+      desiredCapabilities: {
+        browserName: 'MicrosoftEdge'
       }
     },
 
