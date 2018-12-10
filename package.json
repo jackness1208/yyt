@@ -8,7 +8,7 @@
     "yyt": "bin/init.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./bin/init.js --path ./test"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,5 @@
     "yyl-print": "^0.2.0",
     "yyl-util": "^1.14.4"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
