@@ -1,6 +1,6 @@
 {
   "name": "yyt",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "preferGlobal": true,
   "main": "index.js",
@@ -8,7 +8,7 @@
     "yyt": "bin/init.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./bin/init.js --path ./test"
   },
   "repository": {
     "type": "git",
@@ -31,8 +31,11 @@
     "chalk": "^2.4.1",
     "chromedriver": "^2.44.1",
     "nightwatch": "^0.9.21",
+    "nightwatch-helpers": "^1.2.0",
     "selenium-server": "^3.141.59",
+    "yyl-os": "^0.1.0",
     "yyl-print": "^0.2.0",
     "yyl-util": "^1.14.4"
-  }
+  },
+  "devDependencies": {}
 }
