@@ -1,4 +1,5 @@
 /* eslint node/no-extraneous-require: 0 */
+/* eslint max-len: 0 */
 const util = require('yyl-util');
 const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
@@ -109,10 +110,34 @@ if (!fs.existsSync(USER_CONFIG_PATH)) {
   }
 }
 
+// 合并 config a + b = a
+const configArrMerrage = function (a, b, key) {
+  let arr = [];
+  if (util.type(b[key]) === 'array') {
+    arr = b[key];
+  } else if (util.type(b[key]) === 'string') {
+    arr = [b[key]];
+  }
+  a[key] = a[key].concat(arr);
+  delete b[key];
+  return a;
+};
+
+// 合并 config
+if (nwConfig.custom_commands_path) {
+  configArrMerrage(DEFAULT_CONFIG, nwConfig, 'custom_commands_path');
+}
+
+if (nwConfig.custom_assertions_path) {
+  configArrMerrage(DEFAULT_CONFIG, nwConfig, 'custom_assertions_path');
+}
+
 const config = util.extend(true, DEFAULT_CONFIG, nwConfig);
 
 // 路径纠正
 config.src_folders = config.src_folders.map((iPath) => path.resolve(iEnv.path, iPath));
+config.custom_commands_path = config.custom_commands_path.map((iPath) => path.resolve(iEnv.path, iPath));
+config.custom_assertions_path = config.custom_assertions_path.map((iPath) => path.resolve(iEnv.path, iPath));
 
 const PATH_ATTRS = [
   'output_folder',
