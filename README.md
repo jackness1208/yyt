@@ -20,6 +20,17 @@ module.exports = {
 
 具体配置可参考 `nightwatch` 官网 [这里](http://nightwatchjs.org/gettingstarted#settings-file)
 
+### 例子
+```
+module.exports = {
+  nightwatch: {
+    src_folders: ['nightwatch/test'],
+    custom_commands_path: ['nightwatch/commands'],
+    output_folder: false
+  }
+};
+```
+
 ## 运行
 在 config 所在目录执行：
 ```
