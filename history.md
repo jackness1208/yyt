@@ -1,4 +1,9 @@
 # 版本变更
+## 0.3.0 (2018-12-12)
+* [ADD] 加入 `nightwatch-html-reporter`
+* [ADD] 新增 `nightwatch.html_report_folder` 配置项
+* [EDIT] 升级 `nightwatch` 到 `1.x` 版本
+
 ## 0.2.0 (2018-12-12)
 * [ADD] 支持自定义 `custom_commands_path`, `custom_assertions_path`
 

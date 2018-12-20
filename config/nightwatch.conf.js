@@ -40,12 +40,11 @@ if (helperPath) {
 
 const DEFAULT_CONFIG = {
   src_folders: ['test'],
-  output_folder: '_reports',
+  output_folder: false,
   custom_commands_path: commandsPaths,
   custom_assertions_path: assertionsPaths,
-
   page_objects_path : '',
-  globals_path : '',
+  globals_path : path.join(__dirname, 'globals.js'),
   selenium: {
     start_process: true,
     server_path: seleniumServer.path,
@@ -144,7 +143,8 @@ const PATH_ATTRS = [
   'selenium.log_path',
   'page_objects_path',
   'globals_path',
-  'test_settings.screenshots.path'
+  'test_settings.screenshots.path',
+  'html_report_folder'
 ];
 PATH_ATTRS.forEach((ctx) => {
   const deep = ctx.split('.');
@@ -164,5 +164,14 @@ PATH_ATTRS.forEach((ctx) => {
     ctrl[lastKey] = path.resolve(iEnv.path, handle);
   }
 });
+
+// html report 配置
+if (config.html_report_folder) {
+  if (!fs.existsSync(config.html_report_folder)) {
+    print.log.warn(`config.html_report_folder [${config.html_report_folder}] is not exists, auto create it`);
+    util.mkdirSync(config.html_report_folder);
+  }
+  global.html_report_folder = config.html_report_folder;
+}
 
 module.exports = config;
