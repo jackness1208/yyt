@@ -14,7 +14,7 @@ const entry = {
         break;
 
       default:
-        await cmd.start(iEnv);
+        await cmd.start(ctx, iEnv);
         break;
     }
   }
