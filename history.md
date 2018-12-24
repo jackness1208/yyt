@@ -1,4 +1,7 @@
 # 版本变更
+## 0.4.0 (2018-12-24)
+* [EDIT] 默认配置文件 改为 `yyt.config.js`
+
 ## 0.3.0 (2018-12-12)
 * [ADD] 加入 `nightwatch-html-reporter`
 * [ADD] 新增 `nightwatch.html_report_folder` 配置项

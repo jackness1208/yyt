@@ -12,10 +12,13 @@ const iEnv = util.envParse(process.argv.splice(2).join(' '));
 const PORT = iEnv.port || 7000;
 const PRODUCT_PORT = PORT + 1;
 
-let USER_CONFIG_PATH = path.join(iEnv.path, 'config.js');
+let USER_CONFIG_PATH = path.join(iEnv.path, 'yyt.config.js');
+let USER_CONFIG_PATH2 = path.join(iEnv.path, 'config.js');
 
 if (iEnv.config) {
   USER_CONFIG_PATH = path.resolve(iEnv.path, iEnv.config);
+} else if (!fs.existsSync(USER_CONFIG_PATH) && fs.existsSync(USER_CONFIG_PATH2)) {
+  USER_CONFIG_PATH = USER_CONFIG_PATH2;
 }
 
 const HELPER_PATH_01 = path.join(__dirname, '../node_modules/nightwatch-helpers');
