@@ -31,6 +31,19 @@ module.exports = {
 };
 ```
 
+### 额外的配置项
+除了 `nightwatch` 的 配置项外， 本组件还额外实现了:
+
+```
+module.exports = {
+  nightwatch: {
+    // 用于配置生成 html report 的 路径
+    html_report_path : './reports',
+  }
+};
+
+```
+
 ## 运行
 在 config 所在目录执行：
 ```

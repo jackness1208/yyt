@@ -3,3 +3,4 @@ node_modules/
 test/__frag/
 .vscode
 test/_reports/
+test/reports/
