@@ -44,6 +44,14 @@ module.exports = {
 
 ```
 
+### 额外的 cmd 变量
+```
+yyt --proxy 8887
+yyt --headless
+yyt --headless false
+```
+
+
 ## 运行
 在 config 所在目录执行：
 ```
