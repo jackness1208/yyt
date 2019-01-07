@@ -1,9 +1,11 @@
 /* eslint node/no-extraneous-require: 0 */
 /* eslint max-len: 0 */
 const util = require('yyl-util');
+const print = require('yyl-print');
+const extOs = require('yyl-os');
+const chalk = require('chalk');
 const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
-const print = require('yyl-print');
 const fs = require('fs');
 const path = require('path');
 
@@ -13,12 +15,9 @@ const PORT = iEnv.port || 7000;
 const PRODUCT_PORT = PORT + 1;
 
 let USER_CONFIG_PATH = path.join(iEnv.path, 'yyt.config.js');
-let USER_CONFIG_PATH2 = path.join(iEnv.path, 'config.js');
 
 if (iEnv.config) {
   USER_CONFIG_PATH = path.resolve(iEnv.path, iEnv.config);
-} else if (!fs.existsSync(USER_CONFIG_PATH) && fs.existsSync(USER_CONFIG_PATH2)) {
-  USER_CONFIG_PATH = USER_CONFIG_PATH2;
 }
 
 const HELPER_PATH_01 = path.join(__dirname, '../node_modules/nightwatch-helpers');
@@ -70,7 +69,10 @@ const DEFAULT_CONFIG = {
       silent: true,
       desiredCapabilities: {
         browserName: 'chrome',
-        marionette: true
+        marionette: true,
+        chromeOptions: {
+          args: []
+        }
       },
       globals: {
         productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
@@ -107,9 +109,29 @@ if (!fs.existsSync(USER_CONFIG_PATH)) {
   } catch (er) {
     print.log.error(`config [${USER_CONFIG_PATH}]  parse fail:`, er);
   }
-  if (typeof userConfig === 'object' && userConfig.nightwatch) {
-    nwConfig = userConfig.nightwatch;
+  if (typeof userConfig === 'object' && userConfig) {
+    if (iEnv.mode) {
+      if (!userConfig[iEnv.mode]) {
+        throw new Error(`config.${iEnv.mode} is not defined`);
+      }
+      print.log.success(`using ${chalk.yellow(`config.${iEnv.mode}`)} setting`);
+      nwConfig = userConfig[iEnv.mode];
+    } else if (userConfig.default) {
+      print.log.success(`using ${chalk.yellow('config.default')} setting`);
+      nwConfig = userConfig.default;
+    } else {
+      print.log.success(`using ${chalk.yellow('config')} setting`);
+      nwConfig = userConfig;
+    }
   }
+}
+
+if (iEnv.proxy) {
+  nwConfig.proxy = iEnv.proxy;
+}
+
+if (iEnv.headless) {
+  nwConfig.headless = iEnv.headless;
 }
 
 // 合并 config a + b = a
@@ -176,5 +198,32 @@ if (config.html_report_folder) {
   }
   global.html_report_folder = config.html_report_folder;
 }
+
+const defaultOpts = config.test_settings.default.desiredCapabilities.chromeOptions;
+const chromeOpts = config.test_settings.chrome.desiredCapabilities.chromeOptions;
+const HEADLESS_ARGS = '--headless';
+
+[defaultOpts, chromeOpts].forEach((opt) => {
+  // headless
+  const index = opt.args.indexOf(HEADLESS_ARGS);
+
+  if (config.headless) {
+    if (index === -1) {
+      opt.args.push(HEADLESS_ARGS);
+    }
+  } else {
+    if (index !== -1) {
+      opt.args.splice(index, 1);
+    }
+  }
+
+  // proxy
+  if (config.proxy) {
+    opt.proxy = {
+      proxyType: 'manual',
+      httpProxy: `http://${extOs.LOCAL_IP}:${opt.proxy}`
+    };
+  }
+});
 
 module.exports = config;

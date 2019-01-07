@@ -9,12 +9,10 @@ $ npm install yyt -g
 ```
 
 ## 配置
-在项目根目录配置 `config.js` 并且里面配置如下
+在项目根目录配置 `yyt.config.js` 并且里面配置如下
 ```
 module.exports = {
-  nightwatch: {
-    //nightwatch 配置项
-  }
+  //nightwatch 配置项
 };
 ```
 
@@ -23,11 +21,9 @@ module.exports = {
 ### 例子
 ```
 module.exports = {
-  nightwatch: {
-    src_folders: ['nightwatch/test'],
-    custom_commands_path: ['nightwatch/commands'],
-    output_folder: false
-  }
+  src_folders: ['nightwatch/test'],
+  custom_commands_path: ['nightwatch/commands'],
+  output_folder: false
 };
 ```
 
@@ -36,10 +32,12 @@ module.exports = {
 
 ```
 module.exports = {
-  nightwatch: {
-    // 用于配置生成 html report 的 路径
-    html_report_path : './reports',
-  }
+  // 用于配置生成 html report 的 路径
+  html_report_path : './reports',
+  // 用于配置测试浏览器代理端口
+  proxy: 8887,
+  // 用于配置测试浏览器是否使用 headless 模式
+  headless: true
 };
 
 ```
