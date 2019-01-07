@@ -71,7 +71,9 @@ const DEFAULT_CONFIG = {
         browserName: 'chrome',
         marionette: true,
         chromeOptions: {
-          args: []
+          args: [
+            '--proxy-server=http=127.0.0.1:8887'
+          ]
         }
       },
       globals: {
@@ -95,7 +97,8 @@ const DEFAULT_CONFIG = {
     globals: {
       productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
     }
-  }
+  },
+  __extend: {}
 };
 
 let nwConfig = {};
@@ -127,11 +130,11 @@ if (!fs.existsSync(USER_CONFIG_PATH)) {
 }
 
 if (iEnv.proxy) {
-  nwConfig.proxy = iEnv.proxy;
+  nwConfig.__extend.proxy = iEnv.proxy;
 }
 
 if (iEnv.headless) {
-  nwConfig.headless = iEnv.headless;
+  nwConfig.__extend.headless = iEnv.headless;
 }
 
 // 合并 config a + b = a
@@ -191,39 +194,45 @@ PATH_ATTRS.forEach((ctx) => {
 });
 
 // html report 配置
-if (config.html_report_folder) {
-  if (!fs.existsSync(config.html_report_folder)) {
-    print.log.warn(`config.html_report_folder [${config.html_report_folder}] is not exists, auto create it`);
-    util.mkdirSync(config.html_report_folder);
+if (config.__extend.html_report_folder) {
+  if (!fs.existsSync(config.__extend.html_report_folder)) {
+    print.log.warn(`config.__extend.html_report_folder [${config.__extend.html_report_folder}] is not exists, auto create it`);
+    util.mkdirSync(config.__extend.html_report_folder);
   }
-  global.html_report_folder = config.html_report_folder;
+  global.html_report_folder = config.__extend.html_report_folder;
 }
 
 const defaultOpts = config.test_settings.default.desiredCapabilities.chromeOptions;
 const chromeOpts = config.test_settings.chrome.desiredCapabilities.chromeOptions;
-const HEADLESS_ARGS = '--headless';
 
-[defaultOpts, chromeOpts].forEach((opt) => {
-  // headless
-  const index = opt.args.indexOf(HEADLESS_ARGS);
+// headless
+if (typeof config.__extend.headless === 'boolean') {
+  const HEADLESS_ARGS = '--headless';
+  print.log.success(`using headless ${chalk.yellow(`${config.__extend.headless}`)}`);
+  [defaultOpts, chromeOpts].forEach((opt) => {
+    const index = opt.args.indexOf(HEADLESS_ARGS);
 
-  if (config.headless) {
-    if (index === -1) {
-      opt.args.push(HEADLESS_ARGS);
+    if (typeof config.__extend.headless === 'boolean') {
+      // headless
+      if (config.__extend.headless) {
+        if (index === -1) {
+          opt.args.push(HEADLESS_ARGS);
+        }
+      } else {
+        if (index !== -1) {
+          opt.args.splice(index, 1);
+        }
+      }
     }
-  } else {
-    if (index !== -1) {
-      opt.args.splice(index, 1);
-    }
-  }
+  });
+}
 
-  // proxy
-  if (config.proxy) {
-    opt.proxy = {
-      proxyType: 'manual',
-      httpProxy: `http://${extOs.LOCAL_IP}:${opt.proxy}`
-    };
-  }
-});
+// proxy
+if (config.__extend.proxy) {
+  print.log.success(`using proxy ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
+  [defaultOpts, chromeOpts].forEach((opt) => {
+    opt.args.push(`--proxy-server=http=${extOs.LOCAL_IP}:${config.__extend.proxy}`);
+  });
+}
 
 module.exports = config;

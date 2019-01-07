@@ -32,12 +32,14 @@ module.exports = {
 
 ```
 module.exports = {
-  // 用于配置生成 html report 的 路径
-  html_report_path : './reports',
-  // 用于配置测试浏览器代理端口
-  proxy: 8887,
-  // 用于配置测试浏览器是否使用 headless 模式
-  headless: true
+  __extend: {
+    // 用于配置生成 html report 的 路径
+    html_report_path : './reports',
+    // 用于配置测试浏览器代理端口
+    proxy: 8887,
+    // 用于配置测试浏览器是否使用 headless 模式
+    headless: true
+  }
 };
 
 ```
