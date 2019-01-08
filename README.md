@@ -12,7 +12,9 @@ $ npm install yyt -g
 在项目根目录配置 `yyt.config.js` 并且里面配置如下
 ```
 module.exports = {
-  //nightwatch 配置项
+  default: {
+    //nightwatch 配置项
+  }
 };
 ```
 
@@ -21,9 +23,11 @@ module.exports = {
 ### 例子
 ```
 module.exports = {
-  src_folders: ['nightwatch/test'],
-  custom_commands_path: ['nightwatch/commands'],
-  output_folder: false
+  default: {
+    src_folders: ['nightwatch/test'],
+    custom_commands_path: ['nightwatch/commands'],
+    output_folder: false
+  }
 };
 ```
 
@@ -32,13 +36,15 @@ module.exports = {
 
 ```
 module.exports = {
-  __extend: {
-    // 用于配置生成 html report 的 路径
-    html_report_path : './reports',
-    // 用于配置测试浏览器代理端口
-    proxy: 8887,
-    // 用于配置测试浏览器是否使用 headless 模式
-    headless: true
+  default: {
+    __extend: {
+      // 用于配置生成 html report 的 路径
+      html_report_path : './reports',
+      // 用于配置测试浏览器代理端口
+      proxy: 8887,
+      // 用于配置测试浏览器是否使用 headless 模式
+      headless: true
+    }
   }
 };
 
@@ -78,6 +84,25 @@ yyt --version
 带 env 写法
 ```
 yyt --env ci-server
+```
+
+## 选择模式 测试
+如果 在 `yyt.config.js` 设置了 `dev` 模式配置
+```
+// yyt.config.js
+module.exports = {
+  default: {
+    // setting
+  },
+  dev: {
+    // setting
+  }
+};
+```
+则可以通过 `--mode` 进行模式切换
+
+```
+yyt --mode dev
 ```
 
 ## 常见错误
