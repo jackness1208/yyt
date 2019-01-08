@@ -1,11 +1,12 @@
 # 版本变更
 ## 0.5.0 (2019-01-07)
-* [EDIT] yyt 配置文件 改为 `yyt.config.js`, `config.js` 不再支持
+* [ADD] 新增 `yyt init` yyt 项目初始化功能
 * [ADD] 新增 `yyt --proxy` 配置项
 * [ADD] 新增 `yyt --headless` 配置项
 * [ADD] 新增 `config.__extend.proxy` 配置项
 * [ADD] 新增 `config.__extend.headless` 配置项
 * [ADD] 新增 `config.__extend.html_report_folder` 配置项
+* [EDIT] yyt 配置文件 改为 `yyt.config.js`, `config.js` 不再支持
 * [DEL] 去掉 `config.html_report_folder` 配置项
 
 ## 0.4.0 (2018-12-24)

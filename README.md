@@ -58,7 +58,28 @@ yyt --headless false
 $ yyt
 ```
 
+## 初始化项目
+```
+yyt init
+```
+
+## 帮助
+```
+yyt -h
+yyt --help
+```
+
+## 版本信息
+```
+yyt -v
+yyt --version
+```
+
 带 env 写法
 ```
 yyt --env ci-server
 ```
+
+## 常见错误
+* 如果运行时出现 `cannot read property 'reduce' of null`, 请检查 测试目录中是否夹带其他 东西 如 html
+

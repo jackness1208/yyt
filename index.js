@@ -2,20 +2,24 @@ const cmd = require('./lib/cmd.js');
 
 const entry = {
   run: async (ctx, iEnv) => {
+    if (!iEnv) {
+      iEnv = {};
+    }
+
     switch (ctx) {
       case '-v':
       case '--version':
-        await cmd.version(iEnv);
-        break;
+        return await cmd.version(iEnv);
 
       case '-h':
       case '--help':
-        await cmd.help(iEnv);
-        break;
+        return await cmd.help(iEnv);
+
+      case 'init':
+        return cmd.init(iEnv);
 
       default:
-        await cmd.start(ctx, iEnv);
-        break;
+        return cmd.start(ctx, iEnv);
     }
   }
 };

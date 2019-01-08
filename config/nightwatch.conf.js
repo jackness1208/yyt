@@ -71,9 +71,7 @@ const DEFAULT_CONFIG = {
         browserName: 'chrome',
         marionette: true,
         chromeOptions: {
-          args: [
-            '--proxy-server=http=127.0.0.1:8887'
-          ]
+          args: []
         }
       },
       globals: {
@@ -104,7 +102,9 @@ const DEFAULT_CONFIG = {
 let nwConfig = {};
 
 if (!fs.existsSync(USER_CONFIG_PATH)) {
-  print.log.warn(`config is not exists: ${USER_CONFIG_PATH}, use default config`);
+  if (!iEnv.silent) {
+    print.log.warn(`config is not exists: ${USER_CONFIG_PATH}, use default config`);
+  }
 } else {
   let userConfig = {};
   try {
@@ -117,13 +117,19 @@ if (!fs.existsSync(USER_CONFIG_PATH)) {
       if (!userConfig[iEnv.mode]) {
         throw new Error(`config.${iEnv.mode} is not defined`);
       }
-      print.log.success(`using ${chalk.yellow(`config.${iEnv.mode}`)} setting`);
+      if (!iEnv.silent) {
+        print.log.success(`using ${chalk.yellow(`config.${iEnv.mode}`)} setting`);
+      }
       nwConfig = userConfig[iEnv.mode];
     } else if (userConfig.default) {
-      print.log.success(`using ${chalk.yellow('config.default')} setting`);
+      if (!iEnv.silent) {
+        print.log.success(`using ${chalk.yellow('config.default')} setting`);
+      }
       nwConfig = userConfig.default;
     } else {
-      print.log.success(`using ${chalk.yellow('config')} setting`);
+      if (!iEnv.silent) {
+        print.log.success(`using ${chalk.yellow('config')} setting`);
+      }
       nwConfig = userConfig;
     }
   }
@@ -172,7 +178,7 @@ const PATH_ATTRS = [
   'page_objects_path',
   'globals_path',
   'test_settings.screenshots.path',
-  'html_report_folder'
+  '__extend.html_report_folder'
 ];
 PATH_ATTRS.forEach((ctx) => {
   const deep = ctx.split('.');
@@ -196,7 +202,9 @@ PATH_ATTRS.forEach((ctx) => {
 // html report 配置
 if (config.__extend.html_report_folder) {
   if (!fs.existsSync(config.__extend.html_report_folder)) {
-    print.log.warn(`config.__extend.html_report_folder [${config.__extend.html_report_folder}] is not exists, auto create it`);
+    if (!iEnv.silent) {
+      print.log.warn(`config.__extend.html_report_folder [${config.__extend.html_report_folder}] is not exists, auto create it`);
+    }
     util.mkdirSync(config.__extend.html_report_folder);
   }
   global.html_report_folder = config.__extend.html_report_folder;
@@ -208,7 +216,9 @@ const chromeOpts = config.test_settings.chrome.desiredCapabilities.chromeOptions
 // headless
 if (typeof config.__extend.headless === 'boolean') {
   const HEADLESS_ARGS = '--headless';
-  print.log.success(`using headless ${chalk.yellow(`${config.__extend.headless}`)}`);
+  if (!iEnv.silent) {
+    print.log.success(`using headless ${chalk.yellow(`${config.__extend.headless}`)}`);
+  }
   [defaultOpts, chromeOpts].forEach((opt) => {
     const index = opt.args.indexOf(HEADLESS_ARGS);
 
@@ -229,7 +239,9 @@ if (typeof config.__extend.headless === 'boolean') {
 
 // proxy
 if (config.__extend.proxy) {
-  print.log.success(`using proxy ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
+  if (!iEnv.silent) {
+    print.log.success(`using proxy ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
+  }
   [defaultOpts, chromeOpts].forEach((opt) => {
     opt.args.push(`--proxy-server=http=${extOs.LOCAL_IP}:${config.__extend.proxy}`);
   });
