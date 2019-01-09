@@ -11,5 +11,5 @@ const cmd = require('../index.js');
 const handle = iArgv[0];
 const iEnv = util.envPrase(iArgv);
 cmd.run(handle, iEnv).catch((err) => {
-  print.log.error(err);
+  print.log.error(err.message);
 });
