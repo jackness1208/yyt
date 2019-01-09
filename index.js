@@ -1,4 +1,9 @@
 const cmd = require('./lib/cmd.js');
+const path = require('path');
+const fs = require('fs');
+
+const IS_OPTION = /^[-]{1,2}\w/;
+const IS_PATH = /^[.]{1,2}\//;
 
 const entry = {
   run: async (ctx, iEnv) => {
@@ -6,20 +11,99 @@ const entry = {
       iEnv = {};
     }
 
+    if (!ctx) {
+      ctx = '';
+    }
+
+    const PROJECT_PATH = process.cwd();
+
+    if (ctx.match(IS_OPTION)) {
+      switch (ctx) {
+        case '-v':
+        case '--version':
+          iEnv.version = true;
+          ctx = '';
+          break;
+
+        case '--config': // nightwatch 已有字段 换一个
+          iEnv.extConfig = iEnv.config;
+          delete iEnv.config;
+          break;
+
+        case '-h':
+        case '--help':
+          iEnv.help = true;
+          break;
+
+        // nightwatch 固有属性
+        case '--env':
+        case '--output':
+        case '--reporter':
+        case '--verbose':
+        case '--test':
+        case '--testcase':
+        case '--group':
+        case '--skipgroup':
+        case '--filter':
+        case '--tag':
+        case '--skiptags':
+        case '--retries':
+        case '--suiteRetries':
+
+        // 自定义属性
+        case '--headless':
+        case '--proxy':
+        case '--path':
+        case '--mode':
+          break;
+
+        default:
+          iEnv.help = true;
+          break;
+      }
+      ctx = '';
+    } else if (ctx.match(IS_PATH)) { // 考虑 路径
+      const fPath = path.resolve(PROJECT_PATH, ctx);
+      if (fs.existsSync(fPath)) {
+        const iStat = fs.statSync(fPath);
+        if (iStat.isDirectory()) { //
+          iEnv.path = fPath;
+        } else { // must be config file
+          iEnv.extConfig = fPath;
+        }
+        ctx = '';
+      } else {
+        throw `yyt run fail, path not exists: ${fPath}`;
+      }
+    } else { // 考虑 路径
+      const ifPath = path.resolve(PROJECT_PATH, ctx);
+
+      if (fs.existsSync(ifPath)) {
+        const iStat = fs.statSync(ifPath);
+        if (iStat.isDirectory()) { //
+          iEnv.path = ifPath;
+        } else { // must be config file
+          iEnv.extConfig = ifPath;
+        }
+        ctx = '';
+      }
+    }
+
     switch (ctx) {
-      case '-v':
-      case '--version':
-        return await cmd.version(iEnv);
-
-      case '-h':
-      case '--help':
-        return await cmd.help(iEnv);
-
       case 'init':
-        return cmd.init(iEnv);
+        return await cmd.init(iEnv);
+
+      case '':
+        if (iEnv.help) {
+          return await cmd.help(iEnv);
+        } else if (iEnv.version) {
+          return await cmd.version(iEnv);
+        } else {
+          return await cmd.start(iEnv);
+        }
 
       default:
-        return cmd.start(ctx, iEnv);
+        return await cmd.help(iEnv);
     }
   }
 };

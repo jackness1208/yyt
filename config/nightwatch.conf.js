@@ -16,8 +16,9 @@ const PRODUCT_PORT = PORT + 1;
 
 let USER_CONFIG_PATH = path.join(iEnv.path, 'yyt.config.js');
 
-if (iEnv.config) {
-  USER_CONFIG_PATH = path.resolve(iEnv.path, iEnv.config);
+if (iEnv.extConfig) {
+  USER_CONFIG_PATH = path.resolve(iEnv.path, iEnv.extConfig);
+  iEnv.path = path.dirname(USER_CONFIG_PATH);
 }
 
 const HELPER_PATH_01 = path.join(__dirname, '../node_modules/nightwatch-helpers');
@@ -245,6 +246,15 @@ if (config.__extend.proxy) {
   [defaultOpts, chromeOpts].forEach((opt) => {
     opt.args.push(`--proxy-server=http=${extOs.LOCAL_IP}:${config.__extend.proxy}`);
   });
+}
+
+if (!iEnv.silent) {
+  config.src_folders.forEach((iPath) => {
+    print.log.success(`src_folders  : ${chalk.yellow.bold(path.relative(iEnv.path, iPath))}`);
+  });
+  if (config.output_folder) {
+    print.log.success(`output_folder: ${chalk.yellow.bold(path.relative(iEnv.path, config.output_folder))}`);
+  }
 }
 
 module.exports = config;

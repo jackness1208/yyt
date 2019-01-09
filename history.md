@@ -1,4 +1,19 @@
 # 版本变更
+## 0.6.0 (2019-01-08)
+* [ADD] 新增 `yyt --output`
+* [ADD] 新增 `yyt --reporter`
+* [ADD] 新增 `yyt --verbose`
+* [ADD] 新增 `yyt --test`
+* [ADD] 新增 `yyt --testcase`
+* [ADD] 新增 `yyt --group`
+* [ADD] 新增 `yyt --skipgroup`
+* [ADD] 新增 `yyt --filter`
+* [ADD] 新增 `yyt --tag`
+* [ADD] 新增 `yyt --skiptags`
+* [ADD] 新增 `yyt --retries`
+* [ADD] 新增 `yyt --suiteRetries`
+* 注 以上属性不保证能正常使用, 属于 nightwatch 本身自带的属性
+
 ## 0.5.0 (2019-01-07)
 * [ADD] 新增 `yyt init` yyt 项目初始化功能
 * [ADD] 新增 `yyt --proxy` 配置项

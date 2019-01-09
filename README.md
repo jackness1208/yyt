@@ -52,16 +52,31 @@ module.exports = {
 
 ### 额外的 cmd 变量
 ```
+# 定义 代理端口
 yyt --proxy 8887
+
+# 激活 headless 模式
 yyt --headless
+
+# 关掉 headless 模式
 yyt --headless false
+
+# 设置 运行 config.dev 配置
+yyt --mode dev
 ```
 
 
 ## 运行
 在 config 所在目录执行：
 ```
+# 执行当前项目配置
 $ yyt
+
+# 执行 指定路径下的 yyt.config.js 配置
+$ yyt path/to/project
+
+# 执行 指定配置文件
+$ yyt path/to/config
 ```
 
 ## 初始化项目
