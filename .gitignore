@@ -2,5 +2,6 @@ node_modules/
 *.log
 test/__frag/
 .vscode
+test/test-case/case-base/yyt/_report/
 test/_reports/
-test/reports/
+

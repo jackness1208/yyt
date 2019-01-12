@@ -8,7 +8,7 @@
     "yyt": "bin/init.js"
   },
   "scripts": {
-    "test": "jest ./test/ --env=node"
+    "test": "jest ./test/ --env=node --detectOpenHandles"
   },
   "repository": {
     "type": "git",
