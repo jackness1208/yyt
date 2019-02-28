@@ -101,6 +101,9 @@ const entry = {
       case 'init':
         return await cmd.init(iEnv);
 
+      case 'check':
+        return await cmd.check(iEnv);
+
       case '-p':
         return await cmd.path(iEnv);
 

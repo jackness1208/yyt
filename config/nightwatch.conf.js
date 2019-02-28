@@ -85,10 +85,7 @@ const DEFAULT_CONFIG = {
         javascriptEnabled: true,
         acceptSslCerts: true,
         chromeOptions: {
-          args: [
-            '--headless',
-            '--disable-gpu'
-          ]
+          args: []
         }
       }
     },
@@ -215,24 +212,40 @@ const defaultOpts = config.test_settings.default.desiredCapabilities.chromeOptio
 const chromeOpts = config.test_settings.chrome.desiredCapabilities.chromeOptions;
 
 // headless
+if (extOs.IS_LINUX) {
+  config.__extend.headless = true;
+}
 if (typeof config.__extend.headless === 'boolean') {
-  const HEADLESS_ARGS = '--headless';
+  const HEADLESS_ARGS = [
+    '--headless',
+    '--disable-gpu',
+    '--disable-extensions',
+    '--no-sandbox',
+    '--disable-dev-shm-usage'
+  ];
   if (!iEnv.silent) {
-    print.log.success(`using headless ${chalk.yellow(`${config.__extend.headless}`)}`);
+    if (extOs.IS_LINUX) {
+      print.log.success(`using headless in ${chalk.yellow('linux')}`);
+    } else {
+      print.log.success(`using headless ${chalk.yellow(`${config.__extend.headless}`)}`);
+    }
   }
   [defaultOpts, chromeOpts].forEach((opt) => {
-    const index = opt.args.indexOf(HEADLESS_ARGS);
-
     if (typeof config.__extend.headless === 'boolean') {
       // headless
       if (config.__extend.headless) {
-        if (index === -1) {
-          opt.args.push(HEADLESS_ARGS);
-        }
+        HEADLESS_ARGS.forEach((attr) => {
+          if (opt.args.indexOf(attr) === -1) {
+            opt.args.push(attr);
+          }
+        });
       } else {
-        if (index !== -1) {
-          opt.args.splice(index, 1);
-        }
+        HEADLESS_ARGS.forEach((attr) => {
+          const index = opt.args.indexOf(attr);
+          if (index !== -1) {
+            opt.args.splice(index, 1);
+          }
+        });
       }
     }
   });
