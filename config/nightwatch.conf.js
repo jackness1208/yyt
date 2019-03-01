@@ -48,6 +48,10 @@ const DEFAULT_CONFIG = {
   custom_assertions_path: assertionsPaths,
   page_objects_path : '',
   globals_path : path.join(__dirname, 'globals.js'),
+  request_timeout_options: {
+    timeout: 30000,
+    retry_attempts: 5
+  },
   selenium: {
     start_process: true,
     server_path: seleniumServer.path,
