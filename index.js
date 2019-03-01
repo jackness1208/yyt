@@ -28,11 +28,18 @@ const entry = {
         case '--config': // nightwatch 已有字段 换一个
           iEnv.extConfig = iEnv.config;
           delete iEnv.config;
+          ctx = '';
           break;
 
         case '-h':
         case '--help':
           iEnv.help = true;
+          ctx = '';
+          break;
+
+
+        case '-p':
+          ctx = '-p';
           break;
 
         // nightwatch 固有属性
@@ -55,13 +62,14 @@ const entry = {
         case '--proxy':
         case '--path':
         case '--mode':
+          ctx = '';
           break;
 
         default:
           iEnv.help = true;
+          ctx = '';
           break;
       }
-      ctx = '';
     } else if (ctx.match(IS_PATH)) { // 考虑 路径
       const fPath = path.resolve(PROJECT_PATH, ctx);
       if (fs.existsSync(fPath)) {
@@ -92,6 +100,12 @@ const entry = {
     switch (ctx) {
       case 'init':
         return await cmd.init(iEnv);
+
+      case 'check':
+        return await cmd.check(iEnv);
+
+      case '-p':
+        return await cmd.path(iEnv);
 
       case '':
         if (iEnv.help) {
