@@ -4,9 +4,21 @@
 * 支持 `nightwatch --env xxx` 写法
 
 ## 安装
+### 1. 环境安装，需要 java 支持
+#### windows
+下载 [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html), 7 以上
+
+#### linux
+```
+add-apt-repository ppa:webupd8team/java -y
+apt-get install openjdk-8-jre-headless -y
+```
+
+### 2. node 包安装
 ```
 $ npm install yyt -g
 ```
+
 
 ## 配置
 在项目根目录配置 `yyt.config.js` 并且里面配置如下
