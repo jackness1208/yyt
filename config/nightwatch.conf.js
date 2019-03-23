@@ -11,6 +11,7 @@ const path = require('path');
 
 const iEnv = util.envParse(process.argv.splice(2).join(' '));
 
+
 const PORT = iEnv.port || 7000;
 const PRODUCT_PORT = PORT + 1;
 
@@ -141,7 +142,7 @@ if (iEnv.proxy) {
   nwConfig.__extend.proxy = iEnv.proxy;
 }
 
-if (iEnv.headless) {
+if (typeof iEnv.headless === 'boolean') {
   nwConfig.__extend.headless = iEnv.headless;
 }
 
