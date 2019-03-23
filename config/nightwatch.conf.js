@@ -11,6 +11,7 @@ const path = require('path');
 
 const iEnv = util.envParse(process.argv.splice(2).join(' '));
 
+
 const PORT = iEnv.port || 7000;
 const PRODUCT_PORT = PORT + 1;
 
@@ -76,7 +77,8 @@ const DEFAULT_CONFIG = {
         browserName: 'chrome',
         marionette: true,
         chromeOptions: {
-          args: []
+          args: [
+          ]
         }
       },
       globals: {
@@ -141,7 +143,7 @@ if (iEnv.proxy) {
   nwConfig.__extend.proxy = iEnv.proxy;
 }
 
-if (iEnv.headless) {
+if (typeof iEnv.headless === 'boolean') {
   nwConfig.__extend.headless = iEnv.headless;
 }
 
@@ -273,5 +275,15 @@ if (!iEnv.silent) {
     print.log.success(`output_folder: ${chalk.yellow.bold(path.relative(iEnv.path, config.output_folder))}`);
   }
 }
+if (!iEnv.silent) {
+  const chromeArgs = config.test_settings.default.desiredCapabilities.chromeOptions.args;
+  if (chromeArgs.length) {
+    print.log.success(`driver args: ${chalk.yellow.bold(chromeArgs)}`);
+  }
+}
+
+
+// ignore node warning
+require('events').EventEmitter.defaultMaxListeners = 0;
 
 module.exports = config;
