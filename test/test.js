@@ -6,6 +6,7 @@ const pkg = require('../package.json');
 const http = require('http');
 
 const TEST_CTRL = {
+  PATH: true,
   VERSION: true,
   HELP: true,
   INIT: true,
@@ -42,6 +43,13 @@ const fn = {
 };
 
 jest.setTimeout(30000);
+
+if (TEST_CTRL.PATH) {
+  it('yyt -p', async () => {
+    const r = await yyt.run('-p', { silent: true });
+    expect(r).toEqual(path.join(__dirname, '../'));
+  });
+}
 
 if (TEST_CTRL.VERSION) {
   it('yyt -v', async () => {
