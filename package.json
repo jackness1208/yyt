@@ -1,6 +1,6 @@
 {
   "name": "yyt",
-  "version": "0.7.1-beta2",
+  "version": "0.7.2",
   "description": "",
   "preferGlobal": true,
   "main": "index.js",
@@ -36,7 +36,7 @@
     "selenium-server": "^3.141.59",
     "yyl-fs": "^0.1.1",
     "yyl-os": "^0.2.0",
-    "yyl-print": "^0.2.0",
+    "yyl-print": "^0.7.3",
     "yyl-util": "^2.2.0"
   },
   "devDependencies": {

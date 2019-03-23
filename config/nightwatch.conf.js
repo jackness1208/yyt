@@ -77,7 +77,8 @@ const DEFAULT_CONFIG = {
         browserName: 'chrome',
         marionette: true,
         chromeOptions: {
-          args: []
+          args: [
+          ]
         }
       },
       globals: {
@@ -274,5 +275,15 @@ if (!iEnv.silent) {
     print.log.success(`output_folder: ${chalk.yellow.bold(path.relative(iEnv.path, config.output_folder))}`);
   }
 }
+if (!iEnv.silent) {
+  const chromeArgs = config.test_settings.default.desiredCapabilities.chromeOptions.args;
+  if (chromeArgs.length) {
+    print.log.success(`driver args: ${chalk.yellow.bold(chromeArgs)}`);
+  }
+}
+
+
+// ignore node warning
+require('events').EventEmitter.defaultMaxListeners = 0;
 
 module.exports = config;

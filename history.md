@@ -1,4 +1,9 @@
 # 版本变更
+## 0.7.2(2019-03-23)
+* [ADD] 新增 输出 `driver args` logs
+* [FIX] 修复 当脚本数量过多时会出现 `node warning， maxListener` 问题
+* [EDIT] 更新 `yyl-print` `yyl-util` 组件
+
 ## 0.7.1-beta1(2019-02-28)
 * [FIX] 修复 在 `docker` 中 运行报错还依然判断测试通过的问题
 
