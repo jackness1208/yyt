@@ -1,5 +1,7 @@
 # yyt
-* 基于 `nightwatch` ui 测试框架做出来的 一个 ui 测试 cli
+## 简介
+* 基于 `nightwatch` ui 测试框架出来的 开箱即用 一键安装 0 配置，test 框架 yyt
+* 配合 `docker-yyt` 可应用用 gitlab-ci 的定时任务实现 线上定时回归测试
 * 已引入 `nightwatch-helpers`
 * 支持 `nightwatch --env xxx` 写法
 
@@ -14,7 +16,44 @@ add-apt-repository ppa:webupd8team/java -y
 apt-get install openjdk-8-jre-headless -y
 ```
 
-### 2. node 包安装
+### 2. 需要系统安装 chrome
+#### docker - ubuntu
+```
+FROM ubuntu:bionic-20181204
+
+# apt 基础组件安装
+RUN apt-get update
+RUN apt-get -y install \
+  software-properties-common \
+  ca-certificates \
+  sudo \
+  curl \
+  yarn \
+  wget \
+  vim \
+  git
+
+# 安装 chrome
+RUN sudo apt-get -y install \
+  fonts-liberation \
+  libappindicator3-1 \
+  libasound2 \
+  libatk-bridge2.0-0 \
+  libatspi2.0-0 \
+  libgtk-3-0 \
+  libx11-xcb1 \
+  xdg-utils \
+  libxss1 \
+  libappindicator1 \
+  libindicator7
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && sudo dpkg -i google-chrome*.deb \
+  && apt-get install -f -y
+```
+
+
+### 3. node 包安装
 ```
 $ npm install yyt -g
 ```
