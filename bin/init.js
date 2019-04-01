@@ -9,7 +9,7 @@ process.on('uncaughtException', (err) => {
 
 const cmd = require('../index.js');
 const handle = iArgv[0];
-const iEnv = util.envPrase(iArgv);
+const iEnv = util.envParse(iArgv);
 cmd.run(handle, iEnv).catch((err) => {
   print.log.error(err.message);
   process.exit(1);
