@@ -6,9 +6,10 @@
 * 支持 `nightwatch --env xxx` 写法
 
 ## 安装
-### 1. 环境安装，需要 java 支持
+### 1. 环境安装，需要 java 支持, 需要安装 chrome
 #### windows
-下载 [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html), 7 以上
+* 下载 [JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html), 7 以上
+* 安装 chrome 浏览器 71+
 
 #### linux
 ```

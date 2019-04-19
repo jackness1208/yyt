@@ -3,6 +3,7 @@
 const util = require('yyl-util');
 const print = require('yyl-print');
 const extOs = require('yyl-os');
+const extFs = require('yyl-fs');
 const chalk = require('chalk');
 const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
@@ -40,6 +41,21 @@ if (helperPath) {
   commandsPaths.push(path.join(helperPath, 'commands'));
   assertionsPaths.push(path.join(helperPath, 'assertions'));
 }
+
+const FILL_NUM = 12;
+const fn = {
+  fillSpace(str) {
+    if (typeof str !== 'string') {
+      return str;
+    } else {
+      if (str.length > FILL_NUM) {
+        return str;
+      } else {
+        return `${str}${print.fn.makeSpace(FILL_NUM - str.length)}`;
+      }
+    }
+  }
+};
 
 
 const DEFAULT_CONFIG = {
@@ -122,7 +138,7 @@ if (!fs.existsSync(USER_CONFIG_PATH)) {
         throw new Error(`config.${iEnv.mode} is not defined`);
       }
       if (!iEnv.silent) {
-        print.log.success(`using ${chalk.yellow(`config.${iEnv.mode}`)} setting`);
+        print.log.success(`using ${chalk.yellow(`config.${iEnv.mode}`)}`);
       }
       nwConfig = userConfig[iEnv.mode];
     } else if (userConfig.default) {
@@ -209,7 +225,7 @@ if (config.__extend.html_report_folder) {
     if (!iEnv.silent) {
       print.log.warn(`config.__extend.html_report_folder [${config.__extend.html_report_folder}] is not exists, auto create it`);
     }
-    util.mkdirSync(config.__extend.html_report_folder);
+    extFs.mkdirSync(config.__extend.html_report_folder);
   }
   global.html_report_folder = config.__extend.html_report_folder;
 }
@@ -217,6 +233,7 @@ if (config.__extend.html_report_folder) {
 const defaultOpts = config.test_settings.default.desiredCapabilities.chromeOptions;
 const chromeOpts = config.test_settings.chrome.desiredCapabilities.chromeOptions;
 
+// + 浏览器参数配置
 // headless
 if (extOs.IS_LINUX) {
   config.__extend.headless = true;
@@ -231,9 +248,9 @@ if (typeof config.__extend.headless === 'boolean') {
   ];
   if (!iEnv.silent) {
     if (extOs.IS_LINUX) {
-      print.log.success(`using headless in ${chalk.yellow('linux')}`);
+      print.log.success(`${fn.fillSpace('headless')}: true in ${chalk.yellow('linux')}`);
     } else {
-      print.log.success(`using headless ${chalk.yellow(`${config.__extend.headless}`)}`);
+      print.log.success(`${fn.fillSpace('headless')}: ${chalk.yellow(`${config.__extend.headless}`)}`);
     }
   }
   [defaultOpts, chromeOpts].forEach((opt) => {
@@ -260,25 +277,37 @@ if (typeof config.__extend.headless === 'boolean') {
 // proxy
 if (config.__extend.proxy) {
   if (!iEnv.silent) {
-    print.log.success(`using proxy ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
+    print.log.success(`${fn.fillSpace('proxy')}: ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
   }
   [defaultOpts, chromeOpts].forEach((opt) => {
     opt.args.push(`--proxy-server=http=${extOs.LOCAL_IP}:${config.__extend.proxy}`);
   });
 }
 
+// userAgent
+if (config.__extend.userAgent) {
+  if (!iEnv.silent) {
+    print.log.success(`${fn.fillSpace('userAgent')}: ${chalk.yellow(config.__extend.userAgent)}`);
+  }
+  [defaultOpts, chromeOpts].forEach((opt) => {
+    opt.args.push(`--user-agent=${config.__extend.userAgent}`);
+  });
+}
+
+// - 浏览器参数配置
 if (!iEnv.silent) {
   config.src_folders.forEach((iPath) => {
-    print.log.success(`src_folders  : ${chalk.yellow.bold(path.relative(iEnv.path, iPath))}`);
+    print.log.success(`${fn.fillSpace('directory')}: ${chalk.yellow.bold(path.resolve(iEnv.path))}`);
+    print.log.success(`${fn.fillSpace('src_folders')}: ${chalk.yellow.bold(path.relative(iEnv.path, iPath))}`);
   });
   if (config.output_folder) {
-    print.log.success(`output_folder: ${chalk.yellow.bold(path.relative(iEnv.path, config.output_folder))}`);
+    print.log.success(`${fn.fillSpace('output_folder')}: ${chalk.yellow.bold(path.relative(iEnv.path, config.output_folder))}`);
   }
 }
 if (!iEnv.silent) {
   const chromeArgs = config.test_settings.default.desiredCapabilities.chromeOptions.args;
   if (chromeArgs.length) {
-    print.log.success(`driver args: ${chalk.yellow.bold(chromeArgs)}`);
+    print.log.success(`${fn.fillSpace('driver args')}: ${chalk.yellow.bold(chromeArgs)}`);
   }
 }
 
