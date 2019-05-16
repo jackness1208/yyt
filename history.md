@@ -1,4 +1,13 @@
 # 版本变更
+## 0.8.1(2019-05-16)
+* [FIX] 修复 yyt help 报错问题
+
+## 0.8.0(2019-04-19)
+* [EDIT] 调整文档
+* [EDIT] 更新内置的 `checkPageError` 方法
+* [ADD] 新增运行时 显示 nightwatch 版本
+* [ADD] 新增 `__config.userAgent` 配置项
+
 ## 0.7.2(2019-03-23)
 * [ADD] 新增 输出 `driver args` logs
 * [FIX] 修复 当脚本数量过多时会出现 `node warning， maxListener` 问题

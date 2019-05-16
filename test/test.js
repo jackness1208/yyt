@@ -195,6 +195,14 @@ if (TEST_CTRL.START) {
     expect(r).toEqual(undefined);
   });
 
+  it('yyt __extend.userAgent check', async () => {
+    const pjPath = path.join(__dirname, './test-case/case-ua');
+    process.chdir(pjPath);
+
+    const r = await yyt.run('', { silent: true, headless: true });
+    expect(r).toEqual(undefined);
+  });
+
   it('yyt --proxy', async () => {
     await fn.server.start();
     const pjPath = path.join(__dirname, './test-case/case-base');
@@ -205,6 +213,8 @@ if (TEST_CTRL.START) {
 
     await fn.server.abort();
   });
+
+  
 }
 
 
