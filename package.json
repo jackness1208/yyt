@@ -1,6 +1,6 @@
 {
   "name": "yyt",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "",
   "preferGlobal": true,
   "main": "index.js",
@@ -30,7 +30,7 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "chromedriver": "^2.44.1",
-    "nightwatch": "^1.0.19",
+    "nightwatch": "1.1.9",
     "nightwatch-helpers": "^1.2.0",
     "nightwatch-html-reporter": "^2.0.6",
     "selenium-server": "^3.141.59",
@@ -40,6 +40,6 @@
     "yyl-util": "^2.2.0"
   },
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^24.7.1"
   }
 }
