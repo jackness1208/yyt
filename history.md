@@ -1,4 +1,11 @@
 # 版本变更
+## 0.8.4(2019-05-17)
+* [FIX] 修复 yyt 在 window 上运行 env 错误问题
+* [EDIT] 升级 nightwatch 到 `1.1.9`
+
+## 0.8.3(2019-05-16)
+* [FIX] 修复 yyt 在 linux 上不能跑的问题
+
 ## 0.8.2(2019-05-16)
 * [ADD] 新增 yyt 运行时  会将 env 传到 test 文件里面， 文件通过 process.env.xxx 即可获取
 
