@@ -1,4 +1,29 @@
 # 版本变更
+## 0.8.5-beta2(2019-05-17)
+* [FIX] 好像 `nightwatch@1.1.9` 在linux 机器上运行有点问题, 先降级为 `1.0.19`
+
+## 0.8.5-beta1(2019-05-17)
+* [FIX] 调整兼容性
+
+## 0.8.4(2019-05-17)
+* [FIX] 修复 yyt 在 window 上运行 env 错误问题
+* [EDIT] 升级 nightwatch 到 `1.1.9`
+
+## 0.8.3(2019-05-16)
+* [FIX] 修复 yyt 在 linux 上不能跑的问题
+
+## 0.8.2(2019-05-16)
+* [ADD] 新增 yyt 运行时  会将 env 传到 test 文件里面， 文件通过 process.env.xxx 即可获取
+
+## 0.8.1(2019-05-16)
+* [FIX] 修复 yyt help 报错问题
+
+## 0.8.0(2019-04-19)
+* [EDIT] 调整文档
+* [EDIT] 更新内置的 `checkPageError` 方法
+* [ADD] 新增运行时 显示 nightwatch 版本
+* [ADD] 新增 `__config.userAgent` 配置项
+
 ## 0.7.2(2019-03-23)
 * [ADD] 新增 输出 `driver args` logs
 * [FIX] 修复 当脚本数量过多时会出现 `node warning， maxListener` 问题
