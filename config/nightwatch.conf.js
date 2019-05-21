@@ -42,6 +42,11 @@ if (helperPath) {
   assertionsPaths.push(path.join(helperPath, 'assertions'));
 }
 
+// + 添加 extend/commands
+commandsPaths.push(path.join(__dirname, '../extend/commands'));
+// - 添加 extend/commands
+
+
 const FILL_NUM = 12;
 const fn = {
   fillSpace(str) {
