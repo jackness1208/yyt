@@ -121,6 +121,8 @@ const DEFAULT_CONFIG = {
 
 let nwConfig = {};
 
+
+
 if (!fs.existsSync(USER_CONFIG_PATH)) {
   if (!iEnv.silent) {
     print.log.warn(`config is not exists: ${USER_CONFIG_PATH}, use default config`);
@@ -152,6 +154,15 @@ if (!fs.existsSync(USER_CONFIG_PATH)) {
       }
       nwConfig = userConfig;
     }
+  }
+}
+
+if (iEnv.extSrcFolders) {
+  const srcFolders = JSON.parse(unescape(iEnv.extSrcFolders));
+  if (fs.existsSync(USER_CONFIG_PATH)) {
+    nwConfig.src_folders = nwConfig.src_folders.concat(srcFolders);
+  } else {
+    nwConfig.src_folders = srcFolders;
   }
 }
 

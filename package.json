@@ -1,6 +1,6 @@
 {
   "name": "yyt",
-  "version": "0.8.5-beta2",
+  "version": "0.8.6",
   "description": "",
   "preferGlobal": true,
   "main": "index.js",
@@ -8,7 +8,7 @@
     "yyt": "bin/init.js"
   },
   "scripts": {
-    "test": "jest ./test/ --env=node --detectOpenHandles"
+    "test": "jest ./test/jest/ --env=node --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "yyl-fs": "^0.1.1",
     "yyl-os": "^0.7.1",
     "yyl-print": "^0.7.3",
-    "yyl-util": "^2.2.0"
+    "yyl-util": "^2.3.0"
   },
   "devDependencies": {
     "jest": "^24.7.1"
