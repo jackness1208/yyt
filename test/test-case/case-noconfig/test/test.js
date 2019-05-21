@@ -1,7 +1,7 @@
 module.exports = {
   'simple test': function (client) {
     client
-      .url('http:/www.yy.com')
+      .checkPageError('http:/www.yy.com')
       .end();
   }
 };
