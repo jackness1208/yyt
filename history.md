@@ -1,4 +1,8 @@
 # 版本变更
+## 0.8.6
+* [ADD] 新增 `yyt path/to/test.js` 模式
+* [ADD] 新增 `yyt path/to/folder` 模式
+
 ## 0.8.5-beta2(2019-05-17)
 * [FIX] 好像 `nightwatch@1.1.9` 在linux 机器上运行有点问题, 先降级为 `1.0.19`
 
