@@ -1,6 +1,6 @@
 # 版本变更
 ## 0.9.0
-* [ADD] 新增 client.checkPageError(url) 方法
+* [ADD] 新增 client.checkUrlError(url) 方法
 
 ## 0.8.6
 * [ADD] 新增 `yyt path/to/test.js` 模式
