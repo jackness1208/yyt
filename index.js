@@ -19,23 +19,27 @@ const isPath = function(ctx) {
 const entry = {
   run: async ({ cmds, env, shortEnv }) => {
     const PROJECT_PATH = process.cwd();
-    let iCmds = cmds.filter((str) => str !== 'yyt');
+    let iCmds = cmds || [];
+    const iEnv = env || {};
+    const sEnv = shortEnv || {};
+
     let cmd = '';
+    iCmds = iCmds.filter((str) => str !== 'yyt');
 
     // 有句柄
     if (!isPath(iCmds[0])) {
-      cmd = iCmds[0];
+      cmd = iCmds[0] || '';
       iCmds.splice(0, 1);
     }
 
     // config 转换
-    if (env.config) {
-      env.extConfig = env.config;
-      delete env.config;
+    if (iEnv.config) {
+      iEnv.extConfig = iEnv.config;
+      delete iEnv.config;
     }
 
     // yyt xx.js xx/ 模式
-    if (cmd === '' && iCmds.length) { 
+    if (cmd === '' && iCmds.length) {
       if (iCmds.length) {
         // 这里的 cmds 里面装的都是 src_folders or yyt.config.js
         iCmds = iCmds.filter((ctx) => {
@@ -45,16 +49,16 @@ const entry = {
             if (iStat.isDirectory()) { //
               const yConfig = path.join(fPath, 'yyt.config.js');
               if (fs.existsSync(yConfig)) {
-                env.extConfig = yConfig;
+                iEnv.extConfig = yConfig;
                 return false;
               } else { // 是 src_floders
-                env.extBasePath = PROJECT_PATH;
+                iEnv.extBasePath = PROJECT_PATH;
                 return true;
               }
             } else if (fPath.match(/yyt\.config\.?\w*\.js$/)) { // must be config file
-              env.extConfig = fPath;
+              iEnv.extConfig = fPath;
             } else { // 是 src_floders
-              env.extBasePath = PROJECT_PATH;
+              iEnv.extBasePath = PROJECT_PATH;
               return true;
             }
             ctx = '';
@@ -65,29 +69,33 @@ const entry = {
       } else { // 检查当前目录下是否有 yyt.config.js
         const yConfig = path.join(PROJECT_PATH, 'yyt.config.js');
         if (fs.existsSync(yConfig)) {
-          env.extConfig = yConfig;
+          iEnv.extConfig = yConfig;
         } else {
-          env.help = true;
+          iEnv.help = true;
         }
       }
     }
 
     switch (cmd) {
       case 'init':
-        return await ctrl.init(env);
+        return await ctrl.init(iEnv);
 
       case 'check':
-        return await ctrl.check(env);
+        return await ctrl.check(iEnv);
 
       case '':
-        if (env.help || shortEnv.h) {
-          return await ctrl.help(env);
-        } else if (env.version || shortEnv.v) {
-          return await ctrl.version(env);
-        } else if (shortEnv.p) {
-          return await ctrl.path(env);
+        if (iEnv.version || sEnv.v) {
+          return await ctrl.version(iEnv);
+        } else if (sEnv.p) {
+          return await ctrl.path(iEnv);
+        } else if (iEnv.help || sEnv.h) {
+          return await ctrl.help(iEnv);
         } else {
-          return await ctrl.start({ env, shortEnv, cmds: iCmds });
+          return await ctrl.start({
+            env: iEnv,
+            shortEnv: sEnv,
+            cmds: iCmds
+          });
         }
 
       default:

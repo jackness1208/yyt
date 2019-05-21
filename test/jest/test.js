@@ -1,19 +1,21 @@
-const yyt = require('../index.js');
+const yyt = require('../../index.js');
 const extFs = require('yyl-fs');
 const path = require('path');
 const fs = require('fs');
-const pkg = require('../package.json');
+const pkg = require('../../package.json');
 const http = require('http');
+const util = require('yyl-util');
 
 const TEST_CTRL = {
   PATH: true,
   VERSION: true,
   HELP: true,
   INIT: true,
-  START: true
+  START: true,
+  START_PATH: true
 };
 const FRAG_PATH = path.join(__dirname, './__frag');
-const ROOT_PATH = path.join(__dirname, '../');
+const ROOT_PATH = path.join(__dirname, '../../');
 
 const PXY_PORT = 1234;
 
@@ -44,37 +46,44 @@ const fn = {
 
 jest.setTimeout(30000);
 
+const toParseObj = (ctx) => {
+  let arr = ['', 'yyt'];
+  arr = arr.concat(ctx.split(' '));
+  arr.push('--silent');
+  return util.cmdParse(arr);
+};
+
 if (TEST_CTRL.PATH) {
   it('yyt -p', async () => {
-    const r = await yyt.run('-p', { silent: true });
-    expect(r).toEqual(path.join(__dirname, '../'));
+    const r = await yyt.run(toParseObj('-p'));
+    expect(r).toEqual(path.join(__dirname, '../../'));
   });
 }
 
 if (TEST_CTRL.VERSION) {
   it('yyt -v', async () => {
-    const r = await yyt.run('-v', { silent: true });
+    const r = await yyt.run(toParseObj('-v'));
     expect(r).toEqual(pkg.version);
   });
   it('yyt --version', async () => {
-    const r = await yyt.run('--version', { silent: true });
+    const r = await yyt.run(toParseObj('--version'));
     expect(r).toEqual(pkg.version);
   });
 }
 
 if (TEST_CTRL.HELP) {
   it('yyt -h', async () => {
-    const r = await yyt.run('-h', { silent: true });
+    const r = await yyt.run(toParseObj('-h'));
     expect(typeof r).toEqual('object');
   });
 
   it('yyt --help', async () => {
-    const r = await yyt.run('--help', { silent: true });
+    const r = await yyt.run(toParseObj('--help'));
     expect(typeof r).toEqual('object');
   });
 
   it('yyt abcdefg', async () => {
-    const r = await yyt.run('abcdefg', { silent: true });
+    const r = await yyt.run(toParseObj('abcdefg'));
     expect(typeof r).toEqual('object');
   });
 }
@@ -87,7 +96,7 @@ if (TEST_CTRL.INIT) {
       await extFs.mkdirSync(FRAG_PATH);
     }
     process.chdir(FRAG_PATH);
-    const rData = await yyt.run('init', { silent: true });
+    const rData = await yyt.run(toParseObj('init'));
     const rFiles = await extFs.readFilePaths(FRAG_PATH);
     expect(rData.add.length + rData.update.length).toEqual(rFiles.length);
 
@@ -98,17 +107,9 @@ if (TEST_CTRL.INIT) {
   });
 }
 
-if (TEST_CTRL.START) {
-  it('yyt', async () => {
-    const pjPath = path.join(__dirname, './test-case/case-base');
-    process.chdir(pjPath);
-
-    const r = await yyt.run('', { silent: true });
-    expect(r).toEqual(undefined);
-  });
-
+if (TEST_CTRL.START_PATH) {
   it('yyt ./abcdefg', (done) => {
-    yyt.run('./abcdefg', { silent: true }).then((r) => {
+    yyt.run(toParseObj('./abcdefg')).then((r) => {
       expect(r).not.toEqual(undefined);
       done();
     }).catch((er) => {
@@ -120,61 +121,84 @@ if (TEST_CTRL.START) {
   it('yyt path/to/project(absolute)', async () => {
     process.chdir(ROOT_PATH);
 
-    const pjPath = path.join(__dirname, './test-case/case-base');
+    const pjPath = path.join(__dirname, '../test-case/case-base');
 
-    const r = await yyt.run(pjPath, { silent: true });
+    const r = await yyt.run(toParseObj(pjPath));
     expect(r).toEqual(undefined);
   });
 
   it('yyt path/to/project(relative)', async () => {
     process.chdir(ROOT_PATH);
 
-    const r = await yyt.run('test/test-case/case-base', { silent: true });
+    const r = await yyt.run(toParseObj('test/test-case/case-base'));
     expect(r).toEqual(undefined);
   });
 
   it('yyt path/to/config(absolute)', async () => {
     process.chdir(ROOT_PATH);
 
-    const pjPath = path.join(__dirname, './test-case/case-base/yyt.config.js');
+    const pjPath = path.join(__dirname, '../test-case/case-base/yyt.config.js');
 
-    const r = await yyt.run(pjPath, { silent: true });
+    const r = await yyt.run(toParseObj(pjPath));
     expect(r).toEqual(undefined);
   });
 
   it('yyt path/to/config(relative)', async () => {
     process.chdir(ROOT_PATH);
 
-    const r = await yyt.run('test/test-case/case-base/yyt.config.js', { silent: true });
+    const r = await yyt.run(toParseObj('test/test-case/case-base/yyt.config.js'));
+    expect(r).toEqual(undefined);
+  });
+
+  it('yyt path/to/test.js', async () => {
+    const pjPath = path.join(__dirname, '../test-case/case-noconfig');
+    process.chdir(pjPath);
+    const r = await yyt.run(toParseObj('./test/test.js'));
+    expect(r).toEqual(undefined);
+  });
+  it('yyt path/to/folder', async () => {
+    const pjPath = path.join(__dirname, '../test-case/case-noconfig');
+    process.chdir(pjPath);
+    const r = await yyt.run(toParseObj('./test'));
+    expect(r).toEqual(undefined);
+  });
+}
+
+if (TEST_CTRL.START) {
+  it('yyt', async () => {
+    const pjPath = path.join(__dirname, '../test-case/case-base');
+    process.chdir(pjPath);
+
+    const r = await yyt.run(toParseObj(''));
     expect(r).toEqual(undefined);
   });
 
   it('yyt --path', async () => {
     process.chdir(ROOT_PATH);
 
-    const pjPath = path.join(__dirname, './test-case/case-base');
+    const pjPath = path.join(__dirname, '../test-case/case-base');
 
-    const r = await yyt.run('--path', { silent: true, path: pjPath });
+    const r = await yyt.run(toParseObj(`--path ${pjPath}`));
     expect(r).toEqual(undefined);
   });
 
   it('yyt --env chrome', async () => {
     process.chdir(ROOT_PATH);
 
-    const pjPath = path.join(__dirname, './test-case/case-base');
+    const pjPath = path.join(__dirname, '../test-case/case-base');
     process.chdir(pjPath);
 
-    const r = await yyt.run('--env', { silent: true, env: 'chrome' });
+    const r = await yyt.run(toParseObj('--env chrome'));
     expect(r).toEqual(undefined);
 
     process.chdir(ROOT_PATH);
   });
   it('yyt --mode dev', async () => {
     await fn.server.start();
-    const pjPath = path.join(__dirname, './test-case/case-base');
+    const pjPath = path.join(__dirname, '../test-case/case-base');
     process.chdir(pjPath);
 
-    const r = await yyt.run('--mode', { silent: true, mode: 'dev' });
+    const r = await yyt.run(toParseObj('--mode dev'));
     expect(r).toEqual(undefined);
 
     const yytConfig = require(path.join(pjPath, 'yyt.config.js'));
@@ -188,33 +212,33 @@ if (TEST_CTRL.START) {
     await fn.server.abort();
   });
   it('yyt --headless', async () => {
-    const pjPath = path.join(__dirname, './test-case/case-base');
+    const pjPath = path.join(__dirname, '../test-case/case-base');
     process.chdir(pjPath);
 
-    const r = await yyt.run('--headless', { silent: true, headless: true });
+    const r = await yyt.run(toParseObj('--headless'));
     expect(r).toEqual(undefined);
   });
 
+
+
   it('yyt __extend.userAgent check', async () => {
-    const pjPath = path.join(__dirname, './test-case/case-ua');
+    const pjPath = path.join(__dirname, '../test-case/case-ua');
     process.chdir(pjPath);
 
-    const r = await yyt.run('', { silent: true, headless: true });
+    const r = await yyt.run(toParseObj('--headless'));
     expect(r).toEqual(undefined);
   });
 
   it('yyt --proxy', async () => {
     await fn.server.start();
-    const pjPath = path.join(__dirname, './test-case/case-base');
+    const pjPath = path.join(__dirname, '../test-case/case-base');
     process.chdir(pjPath);
 
-    const r = await yyt.run('--proxy', { silent: true, proxy: 1234 });
+    const r = await yyt.run(toParseObj('--proxy 1234'));
     expect(r).toEqual(undefined);
 
     await fn.server.abort();
   });
-
-  
 }
 
 
