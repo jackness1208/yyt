@@ -83,6 +83,15 @@ const entry = {
       case 'check':
         return await ctrl.check(iEnv);
 
+      case 'se':
+        return await ctrl.se({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
+
+      case 'chromedriver':
+        return await ctrl.chromedriver({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
+
+      case 'install':
+        return await ctrl.install({ cmds: iCmds, env: iEnv, shortEnv: sEnv });
+
       case '':
         if (iEnv.version || sEnv.v) {
           return await ctrl.version(iEnv);
