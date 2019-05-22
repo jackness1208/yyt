@@ -1,4 +1,9 @@
 # 版本变更
+## 0.10.0
+* [ADD] 新增 `yyt se` 命令
+* [ADD] 新增 `yyt install` 命令
+* [ADD] 新增 `yyt chromedriver` 命令
+
 ## 0.9.0
 * [ADD] 新增 client.checkUrlError(url) 方法
 

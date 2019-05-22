@@ -9,6 +9,6 @@ process.on('uncaughtException', (err) => {
 const ctrl = require('../index.js');
 const { cmds, env, shortEnv } = util.cmdParse(process.argv);
 ctrl.run({ cmds: cmds.slice(1), env, shortEnv }).catch((err) => {
-  print.log.error(err.message);
+  print.log.error(err);
   process.exit(1);
 });
