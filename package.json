@@ -1,6 +1,6 @@
 {
   "name": "yyt",
-  "version": "0.9.2-beta1",
+  "version": "0.9.2",
   "description": "",
   "preferGlobal": true,
   "main": "index.js",
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/jackness1208/yyt#readme",
   "dependencies": {
     "chalk": "^2.4.1",
-    "chromedriver": "^2.44.1",
+    "chromedriver": "^2.46.0",
     "nightwatch": "1.0.19",
     "nightwatch-helpers": "^1.2.0",
     "nightwatch-html-reporter": "^2.0.6",
@@ -37,7 +37,7 @@
     "yyl-fs": "^0.1.1",
     "yyl-os": "^0.7.1",
     "yyl-print": "^0.7.3",
-    "yyl-util": "^2.3.1"
+    "yyl-util": "^2.3.2"
   },
   "devDependencies": {
     "jest": "^24.7.1"

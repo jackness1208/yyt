@@ -1,11 +1,15 @@
 # 版本变更
-## 0.10.0
+## 注意 如果 yyt check 失败 要检查 chromedriver 与 chrome 浏览器是否匹配 mac 下 chrome 74 存在问题
+## 0.9.2(2019-06-01)
+* [ADD] 修复 `yyt --verbose path/to/a.js` 运行不符合预期问题
+
+## 0.9.2-beta1
 * [ADD] 新增 `yyt se` 命令
 * [ADD] 新增 `yyt install` 命令
 * [ADD] 新增 `yyt chromedriver` 命令
 
 ## 0.9.0
-* [ADD] 新增 client.checkUrlError(url) 方法
+* [ADD] 新增 `client.checkUrlError(url)` 方法
 
 ## 0.8.6
 * [ADD] 新增 `yyt path/to/test.js` 模式
