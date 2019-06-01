@@ -5,7 +5,6 @@ const print = require('yyl-print');
 const extOs = require('yyl-os');
 const extFs = require('yyl-fs');
 const chalk = require('chalk');
-// const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
 const fs = require('fs');
 const path = require('path');
@@ -13,8 +12,7 @@ const path = require('path');
 const iEnv = util.envParse(process.argv.splice(2).join(' '));
 
 
-const PORT = iEnv.port || 7000;
-const PRODUCT_PORT = PORT + 1;
+const PORT = iEnv.port || 9515;
 
 let USER_CONFIG_PATH = path.join(iEnv.path, 'yyt.config.js');
 
@@ -74,36 +72,16 @@ const DEFAULT_CONFIG = {
     timeout: 30000,
     retry_attempts: 5
   },
-  // selenium: {
-  //   start_process: true,
-  //   server_path: seleniumServer.path,
-  //   log_path: false,
-  //   port: PORT,
-  //   cli_args: {
-  //     'webdriver.chrome.driver': chromedriver.path,
-  //     'webdriver.gecko.driver' : '',
-  //     'webdriver.edge.driver' : ''
-  //   }
-  // },
   webdriver : {
-    start_process: true,
-    server_path: chromedriver.path,
-    port: PORT
+    start_process: true
   },
   test_settings: {
     default: {
       webdriver: {
         server_path: chromedriver.path,
-        port: PORT,
+        port: PORT, // 经测试，修改无效 还是会在 9515 打开
         cli_args: []
       },
-      // selenium_port: PORT,
-      // selenium_host: 'localhost',
-      // screenshots: {
-      //   enabled: false,
-      //   path: ''
-      // },
-      // silent: true,
       desiredCapabilities: {
         browserName: 'chrome',
         marionette: true,
@@ -112,10 +90,6 @@ const DEFAULT_CONFIG = {
           ]
         }
       }
-    },
-
-    globals: {
-      productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
     }
   },
   __extend: {}

@@ -182,17 +182,6 @@ if (TEST_CTRL.START) {
     expect(r).toEqual(undefined);
   });
 
-  it('yyt --env chrome', async () => {
-    process.chdir(ROOT_PATH);
-
-    const pjPath = path.join(__dirname, '../test-case/case-base');
-    process.chdir(pjPath);
-
-    const r = await yyt.run(toParseObj('--env chrome'));
-    expect(r).toEqual(undefined);
-
-    process.chdir(ROOT_PATH);
-  });
   it('yyt --mode dev', async () => {
     await fn.server.start();
     const pjPath = path.join(__dirname, '../test-case/case-base');
