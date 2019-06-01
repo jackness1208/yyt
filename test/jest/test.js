@@ -101,7 +101,7 @@ if (TEST_CTRL.INIT) {
     expect(rData.add.length + rData.update.length).toEqual(rFiles.length);
 
     // run test
-    await yyt.run('', { silent: true, headless: true });
+    await yyt.run(toParseObj('--headless'));
     process.chdir(ROOT_PATH);
     await extFs.removeFiles(FRAG_PATH, true);
   });

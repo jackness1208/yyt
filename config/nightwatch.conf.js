@@ -5,7 +5,7 @@ const print = require('yyl-print');
 const extOs = require('yyl-os');
 const extFs = require('yyl-fs');
 const chalk = require('chalk');
-const seleniumServer = require('selenium-server');
+// const seleniumServer = require('selenium-server');
 const chromedriver = require('chromedriver');
 const fs = require('fs');
 const path = require('path');
@@ -74,45 +74,42 @@ const DEFAULT_CONFIG = {
     timeout: 30000,
     retry_attempts: 5
   },
-  selenium: {
+  // selenium: {
+  //   start_process: true,
+  //   server_path: seleniumServer.path,
+  //   log_path: false,
+  //   port: PORT,
+  //   cli_args: {
+  //     'webdriver.chrome.driver': chromedriver.path,
+  //     'webdriver.gecko.driver' : '',
+  //     'webdriver.edge.driver' : ''
+  //   }
+  // },
+  webdriver : {
     start_process: true,
-    server_path: seleniumServer.path,
-    log_path: false,
-    port: PORT,
-    cli_args: {
-      'webdriver.chrome.driver': chromedriver.path,
-      'webdriver.gecko.driver' : '',
-      'webdriver.edge.driver' : ''
-    }
+    server_path: chromedriver.path,
+    port: PORT
   },
   test_settings: {
     default: {
-      selenium_port: PORT,
-      selenium_host: 'localhost',
-      screenshots: {
-        enabled: false,
-        path: ''
+      webdriver: {
+        server_path: chromedriver.path,
+        port: PORT,
+        cli_args: []
       },
-      silent: true,
+      // selenium_port: PORT,
+      // selenium_host: 'localhost',
+      // screenshots: {
+      //   enabled: false,
+      //   path: ''
+      // },
+      // silent: true,
       desiredCapabilities: {
         browserName: 'chrome',
         marionette: true,
         chromeOptions: {
           args: [
           ]
-        }
-      },
-      globals: {
-        productListUrl: `http://localhost:${PRODUCT_PORT}/productlist.html`
-      }
-    },
-    chrome: {
-      desiredCapabilities: {
-        browserName: 'chrome',
-        javascriptEnabled: true,
-        acceptSslCerts: true,
-        chromeOptions: {
-          args: []
         }
       }
     },
@@ -247,7 +244,6 @@ if (config.__extend.html_report_folder) {
 }
 
 const defaultOpts = config.test_settings.default.desiredCapabilities.chromeOptions;
-const chromeOpts = config.test_settings.chrome.desiredCapabilities.chromeOptions;
 
 // + 浏览器参数配置
 // headless
@@ -269,7 +265,7 @@ if (typeof config.__extend.headless === 'boolean') {
       print.log.success(`${fn.fillSpace('headless')}: ${chalk.yellow(`${config.__extend.headless}`)}`);
     }
   }
-  [defaultOpts, chromeOpts].forEach((opt) => {
+  [defaultOpts].forEach((opt) => {
     if (typeof config.__extend.headless === 'boolean') {
       // headless
       if (config.__extend.headless) {
@@ -295,7 +291,7 @@ if (config.__extend.proxy) {
   if (!iEnv.silent) {
     print.log.success(`${fn.fillSpace('proxy')}: ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
   }
-  [defaultOpts, chromeOpts].forEach((opt) => {
+  [defaultOpts].forEach((opt) => {
     opt.args.push(`--proxy-server=http=${extOs.LOCAL_IP}:${config.__extend.proxy}`);
   });
 }
@@ -305,7 +301,7 @@ if (config.__extend.userAgent) {
   if (!iEnv.silent) {
     print.log.success(`${fn.fillSpace('userAgent')}: ${chalk.yellow(config.__extend.userAgent)}`);
   }
-  [defaultOpts, chromeOpts].forEach((opt) => {
+  [defaultOpts].forEach((opt) => {
     opt.args.push(`--user-agent=${config.__extend.userAgent}`);
   });
 }
