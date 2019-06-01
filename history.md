@@ -1,7 +1,7 @@
 # 版本变更
-## 注意 如果 yyt check 失败 要检查 chromedriver 与 chrome 浏览器是否匹配 mac 下 chrome 74 存在问题
 ## 0.10.0(2019-06-01)
 * [ADD] 新增 `yyt doctor`
+* [ADD] 新增 `yyt nightwatch`
 * [DEL] yyt 去 `se` 化
 * [DEL] 去掉默认配置中的 `config.test_settings.chrome` 配置项
 
