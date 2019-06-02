@@ -94,11 +94,11 @@ const entry = {
 
       case '':
         if (iEnv.version || sEnv.v) {
-          return await ctrl.version(iEnv);
+          return await ctrl.version({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
         } else if (sEnv.p) {
-          return await ctrl.path(iEnv);
+          return await ctrl.path({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
         } else if (iEnv.help || sEnv.h) {
-          return await ctrl.help(iEnv);
+          return await ctrl.help({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
         } else {
           return await ctrl.start({
             env: iEnv,
