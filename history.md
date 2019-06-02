@@ -1,4 +1,7 @@
 # 版本变更
+## 0.10.1(2019-06-01)
+* [FIX] 修复 `linux` 下 yyt doctor chrome 版本获取失败的问题
+
 ## 0.10.0(2019-06-01)
 * [ADD] 新增 `yyt doctor`
 * [ADD] 新增 `yyt nightwatch`
