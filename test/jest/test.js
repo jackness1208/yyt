@@ -12,6 +12,8 @@ const TEST_CTRL = {
   HELP: true,
   INIT: true,
   START: true,
+  DOCTOR: true,
+  NIGHTWATCH: true,
   START_PATH: true
 };
 const FRAG_PATH = path.join(__dirname, './__frag');
@@ -160,6 +162,22 @@ if (TEST_CTRL.START_PATH) {
     const pjPath = path.join(__dirname, '../test-case/case-noconfig');
     process.chdir(pjPath);
     const r = await yyt.run(toParseObj('./test'));
+    expect(r).toEqual(undefined);
+  });
+}
+if (TEST_CTRL.DOCTOR) {
+  it('yyt doctor', async () => {
+    const r = await yyt.run(toParseObj('doctor'));
+    expect(r).notEqual(undefined);
+  });
+}
+
+if (TEST_CTRL.NIGHTWATCH) {
+  it('yyt nightwatch', async () => {
+    const pjPath = path.join(__dirname, '../test-case/case-nightwatch');
+    process.chdir(pjPath);
+
+    const r = await yyt.run(toParseObj('nightwatch'));
     expect(r).toEqual(undefined);
   });
 }
