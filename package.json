@@ -34,7 +34,7 @@
     "nightwatch-helpers": "^1.2.0",
     "nightwatch-html-reporter": "^2.0.6",
     "yyl-fs": "^0.1.1",
-    "yyl-os": "^0.7.1",
+    "yyl-os": "^0.8.0",
     "yyl-print": "^0.7.3",
     "yyl-util": "^2.3.3"
   },

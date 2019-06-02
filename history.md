@@ -3,6 +3,8 @@
 * [ADD] 新增 `yyt doctor`
 * [ADD] 新增 `yyt nightwatch`
 * [DEL] yyt 去 `se` 化
+* [DEL] 删除 `yyt install`
+* [DEL] 删除 `yyt se`
 * [DEL] 去掉默认配置中的 `config.test_settings.chrome` 配置项
 
 ## 0.9.2(2019-06-01)

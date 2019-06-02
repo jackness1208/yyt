@@ -78,19 +78,19 @@ const entry = {
 
     switch (cmd) {
       case 'init':
-        return await ctrl.init(iEnv);
+        return await ctrl.init({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
 
       case 'check':
-        return await ctrl.check(iEnv);
+        return await ctrl.check({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
 
-      case 'se':
-        return await ctrl.se({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
+      case 'doctor':
+        return await ctrl.doctor({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
+
+      case 'nightwatch':
+        return await ctrl.nightwatch({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
 
       case 'chromedriver':
         return await ctrl.chromedriver({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
-
-      case 'install':
-        return await ctrl.install({ cmds: iCmds, env: iEnv, shortEnv: sEnv });
 
       case '':
         if (iEnv.version || sEnv.v) {
@@ -108,7 +108,7 @@ const entry = {
         }
 
       default:
-        return await ctrl.help(env);
+        return await ctrl.help({ cmds: iCmds, env: iEnv, shortEnv: sEnv });
     }
   }
 };
