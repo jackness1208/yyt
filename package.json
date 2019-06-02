@@ -1,6 +1,6 @@
 {
   "name": "yyt",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "",
   "preferGlobal": true,
   "main": "index.js",
@@ -34,7 +34,7 @@
     "nightwatch-helpers": "^1.2.0",
     "nightwatch-html-reporter": "^2.0.6",
     "yyl-fs": "^0.1.1",
-    "yyl-os": "^0.8.0",
+    "yyl-os": "^0.8.1",
     "yyl-print": "^0.7.3",
     "yyl-util": "^2.3.3"
   },
