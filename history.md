@@ -1,11 +1,22 @@
 # 版本变更
-## 0.10.0
+## 0.10.0(2019-06-01)
+* [ADD] 新增 `yyt doctor`
+* [ADD] 新增 `yyt nightwatch`
+* [DEL] yyt 去 `se` 化
+* [DEL] 删除 `yyt install`
+* [DEL] 删除 `yyt se`
+* [DEL] 去掉默认配置中的 `config.test_settings.chrome` 配置项
+
+## 0.9.2(2019-06-01)
+* [ADD] 修复 `yyt --verbose path/to/a.js` 运行不符合预期问题
+
+## 0.9.2-beta1
 * [ADD] 新增 `yyt se` 命令
 * [ADD] 新增 `yyt install` 命令
 * [ADD] 新增 `yyt chromedriver` 命令
 
 ## 0.9.0
-* [ADD] 新增 client.checkUrlError(url) 方法
+* [ADD] 新增 `client.checkUrlError(url)` 方法
 
 ## 0.8.6
 * [ADD] 新增 `yyt path/to/test.js` 模式

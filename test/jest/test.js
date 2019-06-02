@@ -12,6 +12,8 @@ const TEST_CTRL = {
   HELP: true,
   INIT: true,
   START: true,
+  DOCTOR: true,
+  NIGHTWATCH: true,
   START_PATH: true
 };
 const FRAG_PATH = path.join(__dirname, './__frag');
@@ -101,7 +103,7 @@ if (TEST_CTRL.INIT) {
     expect(rData.add.length + rData.update.length).toEqual(rFiles.length);
 
     // run test
-    await yyt.run('', { silent: true, headless: true });
+    await yyt.run(toParseObj('--headless'));
     process.chdir(ROOT_PATH);
     await extFs.removeFiles(FRAG_PATH, true);
   });
@@ -163,6 +165,22 @@ if (TEST_CTRL.START_PATH) {
     expect(r).toEqual(undefined);
   });
 }
+if (TEST_CTRL.DOCTOR) {
+  it('yyt doctor', async () => {
+    const r = await yyt.run(toParseObj('doctor'));
+    expect(r !== undefined).toEqual(true);
+  });
+}
+
+if (TEST_CTRL.NIGHTWATCH) {
+  it('yyt nightwatch', async () => {
+    const pjPath = path.join(__dirname, '../test-case/case-nightwatch');
+    process.chdir(pjPath);
+
+    const r = await yyt.run(toParseObj('nightwatch'));
+    expect(r).toEqual(undefined);
+  });
+}
 
 if (TEST_CTRL.START) {
   it('yyt', async () => {
@@ -182,17 +200,6 @@ if (TEST_CTRL.START) {
     expect(r).toEqual(undefined);
   });
 
-  it('yyt --env chrome', async () => {
-    process.chdir(ROOT_PATH);
-
-    const pjPath = path.join(__dirname, '../test-case/case-base');
-    process.chdir(pjPath);
-
-    const r = await yyt.run(toParseObj('--env chrome'));
-    expect(r).toEqual(undefined);
-
-    process.chdir(ROOT_PATH);
-  });
   it('yyt --mode dev', async () => {
     await fn.server.start();
     const pjPath = path.join(__dirname, '../test-case/case-base');

@@ -12,7 +12,7 @@ module.exports = {
     custom_commands_path: ['./yyt/command'],
     output_folder: false,
     __extend: {
-      proxy: 1234,
+      proxy: 8887,
       headless: true,
       html_report_folder: './yyt/__report'
     }

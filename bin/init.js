@@ -7,7 +7,13 @@ process.on('uncaughtException', (err) => {
 });
 
 const ctrl = require('../index.js');
-const { cmds, env, shortEnv } = util.cmdParse(process.argv);
+const { cmds, env, shortEnv } = util.cmdParse(process.argv, {
+  env: {
+    headless: Boolean,
+    verbose: Boolean,
+    silent: Boolean
+  }
+});
 ctrl.run({ cmds: cmds.slice(1), env, shortEnv }).catch((err) => {
   print.log.error(err);
   process.exit(1);
