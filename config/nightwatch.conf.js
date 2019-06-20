@@ -219,6 +219,8 @@ if (config.__extend.html_report_folder) {
 
 const defaultOpts = config.test_settings.default.desiredCapabilities.chromeOptions;
 
+const chromeOptArr = [defaultOpts];
+
 // + 浏览器参数配置
 // headless
 if (extOs.IS_LINUX) {
@@ -239,7 +241,7 @@ if (typeof config.__extend.headless === 'boolean') {
       print.log.success(`${fn.fillSpace('headless')}: ${chalk.yellow(`${config.__extend.headless}`)}`);
     }
   }
-  [defaultOpts].forEach((opt) => {
+  chromeOptArr.forEach((opt) => {
     if (typeof config.__extend.headless === 'boolean') {
       // headless
       if (config.__extend.headless) {
@@ -265,20 +267,53 @@ if (config.__extend.proxy) {
   if (!iEnv.silent) {
     print.log.success(`${fn.fillSpace('proxy')}: ${chalk.yellow(`${extOs.LOCAL_IP}:${config.__extend.proxy}`)}`);
   }
-  [defaultOpts].forEach((opt) => {
+  chromeOptArr.forEach((opt) => {
     opt.args.push(`--proxy-server=http=${extOs.LOCAL_IP}:${config.__extend.proxy}`);
   });
 }
 
-// userAgent
-if (config.__extend.userAgent) {
+const iPlatform = iEnv.extPlatform || config.__extend.platform || 'pc';
+
+// + userAgent
+if (config.__extend.userAgent && iPlatform === 'pc') {
   if (!iEnv.silent) {
     print.log.success(`${fn.fillSpace('userAgent')}: ${chalk.yellow(config.__extend.userAgent)}`);
   }
-  [defaultOpts].forEach((opt) => {
+  chromeOptArr.forEach((opt) => {
     opt.args.push(`--user-agent=${config.__extend.userAgent}`);
   });
 }
+// - userAgent
+
+// + platform
+let iEmulation = '';
+switch (iPlatform) {
+  case 'mobile':
+  case 'ios':
+    iEmulation = 'iPhone X';
+    break;
+  case 'android':
+    iEmulation = 'Galaxy S5';
+    break;
+
+  case 'pc':
+    break;
+  default:
+    iEmulation = iPlatform;
+    break;
+}
+
+if (iEmulation) {
+  chromeOptArr.forEach((opt) => {
+    opt.mobileEmulation = {
+      deviceName: iEmulation
+    };
+  });
+  if (!iEnv.silent) {
+    print.log.success(`${fn.fillSpace('platform')}: ${chalk.yellow.bold(`${iEmulation}`)}`);
+  }
+}
+// - platform
 
 // - 浏览器参数配置
 if (!iEnv.silent) {
@@ -293,6 +328,7 @@ if (!iEnv.silent) {
 if (!iEnv.silent) {
   const chromeArgs = config.test_settings.default.desiredCapabilities.chromeOptions.args;
   if (chromeArgs.length) {
+    print.log.success(`${fn.fillSpace('driver args')}: ${chalk.yellow.bold(chromeArgs)}`);
     print.log.success(`${fn.fillSpace('driver args')}: ${chalk.yellow.bold(chromeArgs)}`);
   }
 }

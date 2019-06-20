@@ -38,6 +38,12 @@ const entry = {
       delete iEnv.config;
     }
 
+    // 平台 pc | mobile
+    if (iEnv.platform) {
+      iEnv.extPlatform = iEnv.platform;
+      delete iEnv.platform;
+    }
+
     // yyt xx.js xx/ 模式
     if (cmd === '' && iCmds.length) {
       if (iCmds.length) {
@@ -86,8 +92,8 @@ const entry = {
       case 'doctor':
         return await ctrl.doctor({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
 
-      case 'nightwatch':
-        return await ctrl.nightwatch({ env: iEnv, shortEnv: sEnv, cmds: iCmds });
+      case 'nightwatch': // 不转义直接用回默认的 env
+        return await ctrl.nightwatch({ env, shortEnv, cmds: iCmds });
 
       case 'chromedriver':
         return await ctrl.chromedriver({ env: iEnv, shortEnv: sEnv, cmds: iCmds });

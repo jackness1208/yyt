@@ -95,7 +95,9 @@ module.exports = {
       // 用于配置测试浏览器代理端口
       proxy: 8887,
       // 用于配置测试浏览器是否使用 headless 模式
-      headless: true
+      headless: true,
+      // pc|mobile|ios|android
+      platform: 'pc'
     }
   }
 };
