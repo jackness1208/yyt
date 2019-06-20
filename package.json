@@ -29,7 +29,7 @@
   "homepage": "https://github.com/jackness1208/yyt#readme",
   "dependencies": {
     "chalk": "^2.4.1",
-    "chromedriver": "^2.46.0",
+    "chromedriver": "^74.0.0",
     "nightwatch": "1.0.19",
     "nightwatch-helpers": "^1.2.0",
     "nightwatch-html-reporter": "^2.0.6",
