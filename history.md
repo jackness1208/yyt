@@ -1,4 +1,8 @@
 # 版本变更
+## 0.11.0-beta1(2019-06-20)
+* [ADD] 新增 `config.__extend.platform` 参数， 默认为 pc
+* [ADD] 新增 `yyt --platform` 参数， 默认为 pc
+
 ## 0.10.1(2019-06-01)
 * [FIX] 修复 `linux` 下 yyt doctor chrome 版本获取失败的问题
 
