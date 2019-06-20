@@ -167,8 +167,7 @@ if (TEST_CTRL.START_PATH) {
 }
 if (TEST_CTRL.DOCTOR) {
   it('yyt doctor', async () => {
-    const r = await yyt.run(toParseObj('doctor'));
-    expect(r !== undefined).toEqual(true);
+    await yyt.run(toParseObj('doctor'));
   });
 }
 

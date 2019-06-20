@@ -1,13 +1,5 @@
-const http = require('http');
-const cache = {
-  server: null
-};
-const PXY_PORT = 8887;
+const yyt = require('../index');
 
-cache.server = http.createServer();
-cache.server.on('request', (req, res) => {
-  res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-  res.write('It is proxy page');
-  res.end();
+yyt.run({ cmds: ['doctor'], env: {}, shortEnv: {}}).then((r) => {
+  console.log(r)
 });
-cache.server.listen(PXY_PORT);
