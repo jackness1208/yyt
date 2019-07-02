@@ -12,7 +12,7 @@ const path = require('path');
 const iEnv = util.envParse(process.argv.splice(2).join(' '));
 
 
-const PORT = iEnv.port || 9515;
+const PORT = iEnv.port || 7000;
 
 let USER_CONFIG_PATH = path.join(iEnv.path, 'yyt.config.js');
 
@@ -80,7 +80,7 @@ const DEFAULT_CONFIG = {
       webdriver: {
         server_path: chromedriver.path,
         port: PORT, // 经测试，修改无效 还是会在 9515 打开
-        cli_args: []
+        cli_args: [`--port=${PORT}`]
       },
       desiredCapabilities: {
         browserName: 'chrome',
