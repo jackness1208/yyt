@@ -1,4 +1,11 @@
 # 版本变更
+## 0.11.0-beta3(2019-08-13)
+* [EDIT] 升级 `nightwatch` 到 `1.2.1`
+* [EDIT] log 优化
+
+## 0.11.0-beta2(2019-08-05)
+* [EDIT] 兼容 chrome `75.0.0` 版本浏览器
+
 ## 0.11.0-beta1(2019-06-20)
 * [ADD] 新增 `config.__extend.platform` 参数， 默认为 pc
 * [ADD] 新增 `yyt --platform` 参数， 默认为 pc
