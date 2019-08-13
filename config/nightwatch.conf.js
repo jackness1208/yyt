@@ -331,7 +331,6 @@ if (!iEnv.silent) {
   const chromeArgs = config.test_settings.default.desiredCapabilities.chromeOptions.args;
   if (chromeArgs.length) {
     print.log.success(`${fn.fillSpace('driver args')}: ${chalk.yellow.bold(chromeArgs)}`);
-    print.log.success(`${fn.fillSpace('driver args')}: ${chalk.yellow.bold(chromeArgs)}`);
   }
 }
 
