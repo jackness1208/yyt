@@ -1,4 +1,8 @@
 # 版本变更
+## 0.11.1(2019-12-11)
+* fix: 同步更新 yyl-x 组件 修复 cmdParse 解析 cmds 出错问题
+* fix: 修复 yyt -v 会报错问题
+
 ## 0.11.0(2019-10-23)
 * feat: `yyt doctor` 支持 检测 chrome > 76.0.0 版本 自动下载 chromedriver
 

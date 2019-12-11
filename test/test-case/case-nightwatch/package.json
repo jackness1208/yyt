@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "chromedriver": "^2.46.0",
+    "chromedriver": "^78.0.0",
     "selenium-server": "^3.141.59"
   }
 }
+
